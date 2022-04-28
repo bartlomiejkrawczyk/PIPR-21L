@@ -17,4 +17,11 @@ endif()
 add_executable(sanity-tests sanity_tests.cpp)
 target_link_libraries(sanity-tests Catch2::Catch2WithMain)
 
+# Value
+add_executable(value-tests value_tests.cpp)
+target_link_libraries(value-tests value)
+target_link_libraries(value-tests Catch2::Catch2WithMain)
+
+
 add_test(sanity-tests sanity-tests)
+add_test(value-tests value-tests)
