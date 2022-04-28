@@ -3,10 +3,13 @@
 
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <sstream>
 
 bool areEqual(double x, double y) {
     return std::fabs(x - y) <= std::numeric_limits<double>::epsilon() * 10;
 }
+
+// Constructor
 
 TEST_CASE("Empty Fraction is initiated as zero", "value-fraction") {
     Fraction fraction;
@@ -98,7 +101,177 @@ TEST_CASE("Fraction initiated with zero and an integer is reduced to 0/1",
     REQUIRE(fraction.denominator() == 1);
 }
 
-// ===================================================================
+// Print
+
+TEST_CASE("Check if zero fraction is printed correctly", "value-fraction") {
+    Fraction fraction(0);
+    std::stringstream ss;
+    ss << fraction;
+    REQUIRE(ss.str() == "0");
+}
+
+TEST_CASE("Check if integer fraction is printed correctly", "value-fraction") {
+    Fraction fraction1(1);
+    std::stringstream ss1;
+    ss1 << fraction1;
+    REQUIRE(ss1.str() == "1");
+
+    Fraction fraction2(2);
+    std::stringstream ss2;
+    ss2 << fraction2;
+    REQUIRE(ss2.str() == "2");
+}
+
+TEST_CASE("Check if integer fraction greater than 9 is printed correctly",
+          "value-fraction") {
+    Fraction fraction10(10);
+    std::stringstream ss10;
+    ss10 << fraction10;
+    REQUIRE(ss10.str() == "10");
+
+    Fraction fraction100(100);
+    std::stringstream ss100;
+    ss100 << fraction100;
+    REQUIRE(ss100.str() == "100");
+}
+
+TEST_CASE("Check if negative integer fraction is printed correctly",
+          "value-fraction") {
+    Fraction fraction1(-1);
+    std::stringstream ss1;
+    ss1 << fraction1;
+    REQUIRE(ss1.str() == "-1");
+
+    Fraction fraction2(-2);
+    std::stringstream ss2;
+    ss2 << fraction2;
+    REQUIRE(ss2.str() == "-2");
+}
+
+TEST_CASE(
+    "Check if negative integer fraction smaller than -9 is printed correctly",
+    "value-fraction") {
+    Fraction fraction10(-10);
+    std::stringstream ss10;
+    ss10 << fraction10;
+    REQUIRE(ss10.str() == "-10");
+
+    Fraction fraction100(-100);
+    std::stringstream ss100;
+    ss100 << fraction100;
+    REQUIRE(ss100.str() == "-100");
+}
+
+TEST_CASE("Check if fraction is printed correctly", "value-fraction") {
+    Fraction fraction1(1, 2);
+    std::stringstream ss1;
+    ss1 << fraction1;
+    REQUIRE(ss1.str() == "1/2");
+
+    Fraction fraction2(2, 5);
+    std::stringstream ss2;
+    ss2 << fraction2;
+    REQUIRE(ss2.str() == "2/5");
+}
+
+TEST_CASE("Check if fraction with multiple digits is printed correctly",
+          "value-fraction") {
+    Fraction fraction10(10, 11);
+    std::stringstream ss10;
+    ss10 << fraction10;
+    REQUIRE(ss10.str() == "10/11");
+
+    Fraction fraction100(100, 111);
+    std::stringstream ss100;
+    ss100 << fraction100;
+    REQUIRE(ss100.str() == "100/111");
+}
+
+TEST_CASE("Check if negative fraction is printed correctly", "value-fraction") {
+    Fraction fraction1(-1, 2);
+    std::stringstream ss1;
+    ss1 << fraction1;
+    REQUIRE(ss1.str() == "-1/2");
+
+    Fraction fraction2(2, -5);
+    std::stringstream ss2;
+    ss2 << fraction2;
+    REQUIRE(ss2.str() == "-2/5");
+}
+
+TEST_CASE(
+    "Check if negative fraction with multiple digits is printed correctly",
+    "value-fraction") {
+    Fraction fraction10(-10, 11);
+    std::stringstream ss10;
+    ss10 << fraction10;
+    REQUIRE(ss10.str() == "-10/11");
+
+    Fraction fraction100(100, -111);
+    std::stringstream ss100;
+    ss100 << fraction100;
+    REQUIRE(ss100.str() == "-100/111");
+}
+
+TEST_CASE("Check if fraction greater than 1 is printed correctly",
+          "value-fraction") {
+    Fraction fraction1(3, 2);
+    std::stringstream ss1;
+    ss1 << fraction1;
+    REQUIRE(ss1.str() == "1_1/2");
+
+    Fraction fraction2(14, 5);
+    std::stringstream ss2;
+    ss2 << fraction2;
+    REQUIRE(ss2.str() == "2_4/5");
+}
+
+TEST_CASE(
+    "Check if fraction greater than 1 with multiple digits is printed "
+    "correctly",
+    "value-fraction") {
+    Fraction fraction10(21, 11);
+    std::stringstream ss10;
+    ss10 << fraction10;
+    REQUIRE(ss10.str() == "1_10/11");
+
+    Fraction fraction100(3000, 111);
+    std::stringstream ss100;
+    ss100 << fraction100;
+    REQUIRE(ss100.str() == "27_1/37");
+}
+
+TEST_CASE("Check if negative fraction smaller than -1 is printed correctly",
+          "value-fraction") {
+    Fraction fraction1(-3, 2);
+    std::stringstream ss1;
+    ss1 << fraction1;
+    REQUIRE(ss1.str() == "-1_1/2");
+
+    Fraction fraction2(7, -5);
+    std::stringstream ss2;
+    ss2 << fraction2;
+    REQUIRE(ss2.str() == "-1_2/5");
+}
+
+TEST_CASE(
+    "Check if negative fraction smaller than -1 with multiple digits is "
+    "printed correctly",
+    "value-fraction") {
+    Fraction fraction10(-32, 11);
+    std::stringstream ss10;
+    ss10 << fraction10;
+    REQUIRE(ss10.str() == "-2_10/11");
+
+    Fraction fraction100(1127, -111);
+    std::stringstream ss100;
+    ss100 << fraction100;
+    REQUIRE(ss100.str() == "-10_17/111");
+}
+
+// ===================================================================================
+
+// Constructor
 
 TEST_CASE("Empty Irrational is initiated as zero", "value-irrational") {
     Irrational irrational;
@@ -122,4 +295,119 @@ TEST_CASE(
     "value-irrational") {
     Irrational irrational(-2.5);
     REQUIRE(irrational.value() == -2.5);
+}
+
+// Print
+
+TEST_CASE("Check if zero irrational is printed correctly", "value-irrational") {
+    Irrational irrational(0);
+    std::stringstream ss;
+    ss << irrational;
+    REQUIRE(ss.str() == "0");
+}
+
+TEST_CASE("Check if integer irrational is printed correctly",
+          "value-irrational") {
+    Irrational irrational1(1);
+    std::stringstream ss1;
+    ss1 << irrational1;
+    REQUIRE(ss1.str() == "1");
+
+    Irrational irrational2(2);
+    std::stringstream ss2;
+    ss2 << irrational2;
+    REQUIRE(ss2.str() == "2");
+}
+
+TEST_CASE("Check if integer irrational greater than 9 is printed correctly",
+          "value-irrational") {
+    Irrational irrational10(10);
+    std::stringstream ss10;
+    ss10 << irrational10;
+    REQUIRE(ss10.str() == "10");
+
+    Irrational irrational100(100);
+    std::stringstream ss100;
+    ss100 << irrational100;
+    REQUIRE(ss100.str() == "100");
+}
+
+TEST_CASE("Check if negative integer irrational is printed correctly",
+          "value-irrational") {
+    Irrational irrational1(-1);
+    std::stringstream ss1;
+    ss1 << irrational1;
+    REQUIRE(ss1.str() == "-1");
+
+    Irrational irrational2(-2);
+    std::stringstream ss2;
+    ss2 << irrational2;
+    REQUIRE(ss2.str() == "-2");
+}
+
+TEST_CASE(
+    "Check if negative integer irrational smaller than -9 is printed correctly",
+    "value-irrational") {
+    Irrational irrational10(-10);
+    std::stringstream ss10;
+    ss10 << irrational10;
+    REQUIRE(ss10.str() == "-10");
+
+    Irrational irrational100(-100);
+    std::stringstream ss100;
+    ss100 << irrational100;
+    REQUIRE(ss100.str() == "-100");
+}
+
+TEST_CASE("Check if double irrational is printed correctly",
+          "value-irrational") {
+    Irrational irrational1(1.5);
+    std::stringstream ss1;
+    ss1 << irrational1;
+    REQUIRE(ss1.str() == "1.5");
+
+    Irrational irrational2(2.7);
+    std::stringstream ss2;
+    ss2 << irrational2;
+    REQUIRE(ss2.str() == "2.7");
+}
+
+TEST_CASE("Check if double irrational greater than 9 is printed correctly",
+          "value-irrational") {
+    Irrational irrational10(10.6);
+    std::stringstream ss10;
+    ss10 << irrational10;
+    REQUIRE(ss10.str() == "10.6");
+
+    Irrational irrational100(100.12);
+    std::stringstream ss100;
+    ss100 << irrational100;
+    REQUIRE(ss100.str() == "100.12");
+}
+
+TEST_CASE("Check if negative double irrational is printed correctly",
+          "value-irrational") {
+    Irrational irrational1(-1.5);
+    std::stringstream ss1;
+    ss1 << irrational1;
+    REQUIRE(ss1.str() == "-1.5");
+
+    Irrational irrational2(-2.7);
+    std::stringstream ss2;
+    ss2 << irrational2;
+    REQUIRE(ss2.str() == "-2.7");
+}
+
+TEST_CASE(
+    "Check if negative double irrational smaller than -9 is printed correctly",
+    "value-irrational") {
+    Irrational irrational10(-10.6);
+    std::stringstream ss10;
+    ss10 << irrational10;
+    REQUIRE(ss10.str() == "-10.6");
+
+    Irrational irrational100(-100.12);
+    std::stringstream ss100;
+    ss100 << irrational100;
+    REQUIRE(ss100.str() == "-100.12");
 }

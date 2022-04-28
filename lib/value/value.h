@@ -3,13 +3,21 @@
 #include <iostream>
 #include <memory>
 
+/*=======================================VALUE=======================================*/
+
 class Value {
 public:
     Value(){};
     virtual ~Value(){};
 
     virtual double value() const = 0;
+
+    // virtual std::unique_ptr<Value> operator+(Value const& other) const = 0;
+    friend std::ostream& operator<<(std::ostream& os, const Value& val);
+    virtual void print(std::ostream& os) const = 0;
 };
+
+/*=======================================FRACTION=======================================*/
 
 class Fraction : public Value {
 private:
@@ -23,9 +31,13 @@ public:
     int nominator() const;
     int denominator() const;
 
+    virtual void print(std::ostream& os) const override;
+
 private:
     void initializeFraction(int nominator, int denominator);
 };
+
+/*=======================================IRRATIONAL=======================================*/
 
 class Irrational : public Value {
 private:
@@ -33,5 +45,8 @@ private:
 
 public:
     Irrational(double value = 0.0) : value_(value) {}
+
     virtual double value() const override;
+
+    void print(std::ostream& os) const;
 };
