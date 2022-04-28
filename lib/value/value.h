@@ -15,6 +15,8 @@ public:
     // virtual std::unique_ptr<Value> operator+(Value const& other) const = 0;
     friend std::ostream& operator<<(std::ostream& os, const Value& val);
     virtual void print(std::ostream& os) const = 0;
+
+    static std::unique_ptr<Value> read(std::istream& is);
 };
 
 /*=======================================FRACTION=======================================*/
@@ -33,6 +35,8 @@ public:
 
     virtual void print(std::ostream& os) const override;
 
+    friend std::istream& operator>>(std::istream& is, Fraction& val);
+
 private:
     void initializeFraction(int nominator, int denominator);
 };
@@ -49,4 +53,6 @@ public:
     virtual double value() const override;
 
     void print(std::ostream& os) const;
+
+    friend std::istream& operator>>(std::istream& is, Irrational& val);
 };

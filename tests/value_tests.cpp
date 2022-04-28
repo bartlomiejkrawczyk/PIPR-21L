@@ -269,6 +269,93 @@ TEST_CASE(
     REQUIRE(ss100.str() == "-10_17/111");
 }
 
+// Read
+
+TEST_CASE("Check if zero fraction loads from stream", "value-fraction") {
+    std::stringstream ss;
+    ss << "0";
+    std::unique_ptr<Value> val = std::move(Value::read(ss));
+    Fraction* fraction = dynamic_cast<Fraction*>(val.get());
+    REQUIRE(fraction != nullptr);
+    REQUIRE(fraction->nominator() == 0);
+    REQUIRE(fraction->denominator() == 1);
+}
+
+TEST_CASE("Check if integer fraction loads from stream", "value-fraction") {
+    std::stringstream ss;
+    ss << "2";
+    std::unique_ptr<Value> val = std::move(Value::read(ss));
+    Fraction* fraction = dynamic_cast<Fraction*>(val.get());
+    REQUIRE(fraction != nullptr);
+    REQUIRE(fraction->nominator() == 2);
+    REQUIRE(fraction->denominator() == 1);
+}
+
+TEST_CASE("Check if integer fraction greater than 9 loads from stream",
+          "value-fraction") {
+    std::stringstream ss;
+    ss << "10";
+    std::unique_ptr<Value> val = std::move(Value::read(ss));
+    Fraction* fraction = dynamic_cast<Fraction*>(val.get());
+    REQUIRE(fraction != nullptr);
+    REQUIRE(fraction->nominator() == 10);
+    REQUIRE(fraction->denominator() == 1);
+}
+
+TEST_CASE("Check if negative integer fraction loads from stream",
+          "value-fraction") {
+    std::stringstream ss;
+    ss << "-2";
+    std::unique_ptr<Value> val = std::move(Value::read(ss));
+    Fraction* fraction = dynamic_cast<Fraction*>(val.get());
+    REQUIRE(fraction != nullptr);
+    REQUIRE(fraction->nominator() == -2);
+    REQUIRE(fraction->denominator() == 1);
+}
+
+TEST_CASE("Check if fraction loads from stream", "value-fraction") {
+    std::stringstream ss;
+    ss << "1/2";
+    std::unique_ptr<Value> val = std::move(Value::read(ss));
+    Fraction* fraction = dynamic_cast<Fraction*>(val.get());
+    REQUIRE(fraction != nullptr);
+    REQUIRE(fraction->nominator() == 1);
+    REQUIRE(fraction->denominator() == 2);
+}
+
+TEST_CASE("Check if fraction greater than 1 loads from stream",
+          "value-fraction") {
+    std::stringstream ss;
+    ss << "3_1/2";
+    std::unique_ptr<Value> val = std::move(Value::read(ss));
+    Fraction* fraction = dynamic_cast<Fraction*>(val.get());
+    REQUIRE(fraction != nullptr);
+    REQUIRE(fraction->nominator() == 7);
+    REQUIRE(fraction->denominator() == 2);
+}
+
+TEST_CASE("Check if fraction greater than 10 loads from stream",
+          "value-fraction") {
+    std::stringstream ss;
+    ss << "27_11/79";
+    std::unique_ptr<Value> val = std::move(Value::read(ss));
+    Fraction* fraction = dynamic_cast<Fraction*>(val.get());
+    REQUIRE(fraction != nullptr);
+    REQUIRE(fraction->nominator() == 2144);
+    REQUIRE(fraction->denominator() == 79);
+}
+
+TEST_CASE("Check if negative fraction smaller than -10 loads from stream",
+          "value-fraction") {
+    std::stringstream ss;
+    ss << "-27_11/79";
+    std::unique_ptr<Value> val = std::move(Value::read(ss));
+    Fraction* fraction = dynamic_cast<Fraction*>(val.get());
+    REQUIRE(fraction != nullptr);
+    REQUIRE(fraction->nominator() == -2144);
+    REQUIRE(fraction->denominator() == 79);
+}
+
 // ===================================================================================
 
 // Constructor
@@ -410,4 +497,23 @@ TEST_CASE(
     std::stringstream ss100;
     ss100 << irrational100;
     REQUIRE(ss100.str() == "-100.12");
+}
+
+TEST_CASE("Check if irrational loads from stream", "value-irrational") {
+    std::stringstream ss;
+    ss << "0.5";
+    std::unique_ptr<Value> val = std::move(Value::read(ss));
+    Irrational* irrational = dynamic_cast<Irrational*>(val.get());
+    REQUIRE(irrational != nullptr);
+    REQUIRE(irrational->value() == 0.5);
+}
+
+TEST_CASE("Check if negative irrational loads from stream",
+          "value-irrational") {
+    std::stringstream ss;
+    ss << "-100.5";
+    std::unique_ptr<Value> val = std::move(Value::read(ss));
+    Irrational* irrational = dynamic_cast<Irrational*>(val.get());
+    REQUIRE(irrational != nullptr);
+    REQUIRE(irrational->value() == -100.5);
 }
