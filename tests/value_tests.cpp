@@ -358,7 +358,7 @@ TEST_CASE("Check if negative fraction smaller than -10 loads from stream",
 
 // Addition
 
-TEST_CASE("Add two fractions", "value-fraction") {
+TEST_CASE("Add two positive fractions", "value-fraction") {
     Fraction f1(3, 4);
     Fraction f2(3, 4);
     Value* v1 = &f1;
@@ -366,7 +366,70 @@ TEST_CASE("Add two fractions", "value-fraction") {
 
     std::unique_ptr<Value> result = ((*v1) + (*v2));
 
-    REQUIRE(dynamic_cast<Fraction*>(result.get()) != nullptr);
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == 3);
+    REQUIRE(fr->denominator() == 2);
+}
+
+TEST_CASE("Add two negative fractions", "value-fraction") {
+    Fraction f1(-7, 5);
+    Fraction f2(-1, 2);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) + (*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == -19);
+    REQUIRE(fr->denominator() == 10);
+}
+
+TEST_CASE("Add positive to negative fractions", "value-fraction") {
+    Fraction f1(7, 5);
+    Fraction f2(-1, 2);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) + (*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == 9);
+    REQUIRE(fr->denominator() == 10);
+}
+
+TEST_CASE("Add negative to positive fractions", "value-fraction") {
+    Fraction f1(-7, 5);
+    Fraction f2(1, 2);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) + (*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == -9);
+    REQUIRE(fr->denominator() == 10);
+}
+
+TEST_CASE("Add irrational to fraction", "value-fraction") {
+    Fraction f1(-7, 5);
+    Irrational i2(1.2);
+    Value* v1 = &f1;
+    Value* v2 = &i2;
+
+    std::unique_ptr<Value> result = ((*v1) + (*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(areEqual(ir->value(), -0.2));
 }
 
 // ===================================================================================
@@ -529,4 +592,34 @@ TEST_CASE("Check if negative irrational loads from stream",
     Irrational* irrational = dynamic_cast<Irrational*>(val.get());
     REQUIRE(irrational != nullptr);
     REQUIRE(irrational->value() == -100.5);
+}
+
+// Addition
+
+TEST_CASE("Add two irrationals", "value-irrational") {
+    Irrational i1(-3.5);
+    Irrational i2(7.4);
+    Value* v1 = &i1;
+    Value* v2 = &i2;
+
+    std::unique_ptr<Value> result = ((*v1) + (*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(areEqual(ir->value(), 3.9));
+}
+
+TEST_CASE("Add fraction to irrational", "value-irrational") {
+    Irrational i1(-3.5);
+    Fraction f2(7, 4);
+    Value* v1 = &i1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) + (*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(areEqual(ir->value(), -1.75));
 }
