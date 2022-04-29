@@ -6,12 +6,17 @@
 #include <sstream>
 #include <vector>
 
-#include "../value/value.h"
 #include "operations.h"
 
 // Stack Functionality
 
 StackMachine::StackMachine() {}
+
+StackMachine::StackMachine(const StackMachine& stackMachine) {
+    for (auto i = stackMachine.begin(); i != stackMachine.end(); ++i) {
+        stack.push_back((*i)->clone());
+    }
+}
 
 // Element Access
 
@@ -27,15 +32,29 @@ const Value& StackMachine::top() const {
 
 // Iterators
 
-auto StackMachine::begin() { return stack.begin(); }
-auto StackMachine::end() { return stack.end(); }
-auto StackMachine::begin() const { return stack.begin(); }
-auto StackMachine::end() const { return stack.end(); }
+std::vector<std::unique_ptr<Value>>::iterator StackMachine::begin() { return stack.begin(); }
+std::vector<std::unique_ptr<Value>>::iterator StackMachine::end() { return stack.end(); }
+std::vector<std::unique_ptr<Value>>::const_iterator StackMachine::begin() const {
+    return stack.begin();
+}
+std::vector<std::unique_ptr<Value>>::const_iterator StackMachine::end() const {
+    return stack.end();
+}
 
-auto StackMachine::rbegin() { return stack.rbegin(); }
-auto StackMachine::rend() { return stack.rend(); }
-auto StackMachine::rbegin() const { return stack.rbegin(); }
-auto StackMachine::rend() const { return stack.rend(); }
+std::reverse_iterator<std::vector<std::unique_ptr<Value>>::iterator> StackMachine::rbegin() {
+    return stack.rbegin();
+}
+std::reverse_iterator<std::vector<std::unique_ptr<Value>>::iterator> StackMachine::rend() {
+    return stack.rend();
+}
+std::reverse_iterator<std::vector<std::unique_ptr<Value>>::const_iterator> StackMachine::rbegin()
+    const {
+    return stack.rbegin();
+}
+std::reverse_iterator<std::vector<std::unique_ptr<Value>>::const_iterator> StackMachine::rend()
+    const {
+    return stack.rend();
+}
 
 // Capacity
 

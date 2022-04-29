@@ -22,6 +22,12 @@ add_executable(value-tests value_tests.cpp)
 target_link_libraries(value-tests value)
 target_link_libraries(value-tests Catch2::Catch2WithMain)
 
+# Stack Machine
+add_executable(stack-machine-tests stack_machine_tests.cpp)
+target_link_libraries(stack-machine-tests stack_machine)
+target_link_libraries(stack-machine-tests Catch2::Catch2WithMain)
+
 
 add_test(sanity-tests sanity-tests)
 add_test(value-tests value-tests)
+add_test(stack-machine-tests stack-machine-tests)

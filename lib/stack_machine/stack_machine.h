@@ -4,13 +4,14 @@
 #include <memory>
 #include <vector>
 
-class Value;
+#include "../value/value.h"
 
 class StackMachine {
     std::vector<std::unique_ptr<Value>> stack;
 
 public:
     StackMachine();
+    StackMachine(const StackMachine& stackMachine);
 
     // Stack funcionality
 
@@ -21,15 +22,15 @@ public:
     const Value& top() const;
 
     // Iterators
-    auto begin();
-    auto end();
-    auto begin() const;
-    auto end() const;
+    std::vector<std::unique_ptr<Value>>::iterator begin();
+    std::vector<std::unique_ptr<Value>>::iterator end();
+    std::vector<std::unique_ptr<Value>>::const_iterator begin() const;
+    std::vector<std::unique_ptr<Value>>::const_iterator end() const;
 
-    auto rbegin();
-    auto rend();
-    auto rbegin() const;
-    auto rend() const;
+    std::reverse_iterator<std::vector<std::unique_ptr<Value>>::iterator> rbegin();
+    std::reverse_iterator<std::vector<std::unique_ptr<Value>>::iterator> rend();
+    std::reverse_iterator<std::vector<std::unique_ptr<Value>>::const_iterator> rbegin() const;
+    std::reverse_iterator<std::vector<std::unique_ptr<Value>>::const_iterator> rend() const;
 
     // Capacity
 
