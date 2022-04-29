@@ -25,6 +25,8 @@ public:
 
     static std::unique_ptr<Value> read(std::istream& is);
 
+    virtual std::unique_ptr<Value> clone() const = 0;
+
     // Addition
     virtual void accept(IAdditionValueVisitor& visitor) const = 0;
 
@@ -80,9 +82,16 @@ public:
     int nominator() const;
     int denominator() const;
 
+    void setNominator(int nom);
+    void setDenominator(int den);
+
     virtual void print(std::ostream& os) const override;
 
     friend std::istream& operator>>(std::istream& is, Fraction& val);
+
+    Fraction(const Fraction& fraction);
+
+    virtual std::unique_ptr<Value> clone() const override;
 
     // Addition
     virtual void accept(IAdditionValueVisitor& visitor) const override;
@@ -129,9 +138,15 @@ public:
 
     virtual double value() const override;
 
+    void setValue(double val);
+
     void print(std::ostream& os) const override;
 
     friend std::istream& operator>>(std::istream& is, Irrational& val);
+
+    Irrational(const Irrational& irrational);
+
+    virtual std::unique_ptr<Value> clone() const override;
 
     // Addition
     virtual void accept(IAdditionValueVisitor& visitor) const override;

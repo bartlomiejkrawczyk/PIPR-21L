@@ -109,6 +109,9 @@ double Fraction::value() const { return (double)nominator_ / (double)denominator
 int Fraction::nominator() const { return nominator_; }
 int Fraction::denominator() const { return denominator_; }
 
+void Fraction::setNominator(int nom) { nominator_ = nom; }
+void Fraction::setDenominator(int den) { denominator_ = den; }
+
 Fraction::Fraction(int nominator, int denominator) { initializeFraction(nominator, denominator); }
 
 void Fraction::initializeFraction(int nominator, int denominator) {
@@ -136,6 +139,15 @@ void Fraction::print(std::ostream& os) const {
     } else {
         os << nominator_ << "/" << denominator_;
     }
+}
+
+Fraction::Fraction(const Fraction& fraction) {
+    nominator_ = fraction.nominator();
+    denominator_ = fraction.denominator();
+}
+
+std::unique_ptr<Value> Fraction::clone() const {
+    return std::make_unique<Fraction>(Fraction(*this));
 }
 
 // Addition
@@ -244,7 +256,15 @@ std::istream& operator>>(std::istream& is, Irrational& val) {
 
 double Irrational::value() const { return value_; }
 
+void Irrational::setValue(double val) { value_ = val; }
+
 void Irrational::print(std::ostream& os) const { os << value_; }
+
+Irrational::Irrational(const Irrational& irrational) { value_ = irrational.value(); }
+
+std::unique_ptr<Value> Irrational::clone() const {
+    return std::make_unique<Irrational>(Irrational(*this));
+}
 
 // Addition
 

@@ -339,6 +339,21 @@ TEST_CASE("Check if negative fraction smaller than -10 loads from stream", "valu
     REQUIRE(fraction->denominator() == 79);
 }
 
+// Clone
+
+TEST_CASE("Clone fraction", "value-fraction") {
+    Fraction fraction(3, 4);
+    std::unique_ptr<Value> clone = std::move(fraction.clone());
+    Fraction* fclone = dynamic_cast<Fraction*>(clone.get());
+
+    fraction.setNominator(1);
+    fraction.setDenominator(2);
+
+    REQUIRE(fclone != nullptr);
+    REQUIRE(fclone->nominator() == 3);
+    REQUIRE(fclone->denominator() == 4);
+}
+
 // Addition
 
 TEST_CASE("Add two positive fractions", "value-fraction") {
@@ -867,6 +882,8 @@ TEST_CASE("Check if negative double irrational smaller than -9 is printed correc
     REQUIRE(ss100.str() == "-100.12");
 }
 
+// Read
+
 TEST_CASE("Check if irrational loads from stream", "value-irrational") {
     std::stringstream ss;
     ss << "0.5";
@@ -883,6 +900,19 @@ TEST_CASE("Check if negative irrational loads from stream", "value-irrational") 
     Irrational* irrational = dynamic_cast<Irrational*>(val.get());
     REQUIRE(irrational != nullptr);
     REQUIRE(irrational->value() == -100.5);
+}
+
+// Clone
+
+TEST_CASE("Clone irrational", "value-irrational") {
+    Irrational irrational(3.4);
+    std::unique_ptr<Value> clone = std::move(irrational.clone());
+    Irrational* iclone = dynamic_cast<Irrational*>(clone.get());
+
+    irrational.setValue(0.2);
+
+    REQUIRE(iclone != nullptr);
+    REQUIRE(iclone->value() == 3.4);
 }
 
 // Addition
