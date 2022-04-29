@@ -432,6 +432,82 @@ TEST_CASE("Add irrational to fraction", "value-fraction") {
     REQUIRE(areEqual(ir->value(), -0.2));
 }
 
+// Subtraction
+
+TEST_CASE("Subtract two positive fractions", "value-fraction") {
+    Fraction f1(3, 4);
+    Fraction f2(3, 4);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) - (*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == 0);
+    REQUIRE(fr->denominator() == 1);
+}
+
+TEST_CASE("Subtract two negative fractions", "value-fraction") {
+    Fraction f1(-7, 5);
+    Fraction f2(-1, 2);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) - (*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == -9);
+    REQUIRE(fr->denominator() == 10);
+}
+
+TEST_CASE("Subtract negative from positive fractions", "value-fraction") {
+    Fraction f1(7, 5);
+    Fraction f2(-1, 2);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) - (*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == 19);
+    REQUIRE(fr->denominator() == 10);
+}
+
+TEST_CASE("Subtract positive from negative fractions", "value-fraction") {
+    Fraction f1(-7, 5);
+    Fraction f2(1, 2);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) - (*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == -19);
+    REQUIRE(fr->denominator() == 10);
+}
+
+TEST_CASE("Subtract irrational from fraction", "value-fraction") {
+    Fraction f1(-7, 5);
+    Irrational i2(1.2);
+    Value* v1 = &f1;
+    Value* v2 = &i2;
+
+    std::unique_ptr<Value> result = ((*v1) - (*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(areEqual(ir->value(), -2.6));
+}
+
 // ===================================================================================
 
 // Constructor
@@ -622,4 +698,36 @@ TEST_CASE("Add fraction to irrational", "value-irrational") {
 
     REQUIRE(ir != nullptr);
     REQUIRE(areEqual(ir->value(), -1.75));
+}
+
+// Subtraction
+
+TEST_CASE("Subtract two irrationals", "value-irrational") {
+    Irrational i1(-3.5);
+    Irrational i2(7.4);
+    Value* v1 = &i1;
+    Value* v2 = &i2;
+
+    std::unique_ptr<Value> result = ((*v1) - (*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(ir->value() == -10.9);
+    REQUIRE(areEqual(ir->value(), -10.9));
+}
+
+TEST_CASE("Subtract fraction to irrational", "value-irrational") {
+    Irrational i1(-3.5);
+    Fraction f2(7, 4);
+    Value* v1 = &i1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) - (*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(ir->value() == -5.25);
+    REQUIRE(areEqual(ir->value(), -5.25));
 }

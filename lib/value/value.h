@@ -19,18 +19,26 @@ public:
 
     virtual double value() const = 0;
 
-    // virtual std::unique_ptr<Value> operator+(Value const& other) const = 0;
     friend std::ostream& operator<<(std::ostream& os, const Value& val);
     virtual void print(std::ostream& os) const = 0;
 
     static std::unique_ptr<Value> read(std::istream& is);
 
+    // Addition
     virtual void accept(IAdditionValueVisitor& visitor) const = 0;
 
     virtual std::unique_ptr<Value> operator+(Value const& other) const;
 
     virtual std::unique_ptr<Value> operator+(Fraction const& other) const = 0;
     virtual std::unique_ptr<Value> operator+(Irrational const& other) const = 0;
+
+    // Subtraction
+    virtual void accept(ISubtractionValueVisitor& visitor) const = 0;
+
+    virtual std::unique_ptr<Value> operator-(Value const& other) const;
+
+    virtual std::unique_ptr<Value> operator-(Fraction const& other) const = 0;
+    virtual std::unique_ptr<Value> operator-(Irrational const& other) const = 0;
 };
 
 /*=======================================FRACTION=======================================*/
@@ -51,12 +59,22 @@ public:
 
     friend std::istream& operator>>(std::istream& is, Fraction& val);
 
+    // Addition
     virtual void accept(IAdditionValueVisitor& visitor) const override;
 
     virtual std::unique_ptr<Value> operator+(
         Fraction const& other) const override;
 
     virtual std::unique_ptr<Value> operator+(
+        Irrational const& other) const override;
+
+    // Subtraction
+    virtual void accept(ISubtractionValueVisitor& visitor) const override;
+
+    virtual std::unique_ptr<Value> operator-(
+        Fraction const& other) const override;
+
+    virtual std::unique_ptr<Value> operator-(
         Irrational const& other) const override;
 
 private:
@@ -78,11 +96,21 @@ public:
 
     friend std::istream& operator>>(std::istream& is, Irrational& val);
 
+    // Addition
     virtual void accept(IAdditionValueVisitor& visitor) const override;
 
     virtual std::unique_ptr<Value> operator+(
         Fraction const& other) const override;
 
     virtual std::unique_ptr<Value> operator+(
+        Irrational const& other) const override;
+
+    // Subtraction
+    virtual void accept(ISubtractionValueVisitor& visitor) const override;
+
+    virtual std::unique_ptr<Value> operator-(
+        Fraction const& other) const override;
+
+    virtual std::unique_ptr<Value> operator-(
         Irrational const& other) const override;
 };
