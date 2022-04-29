@@ -83,3 +83,39 @@ public:
     virtual void visit(const Fraction& fraction) override;
     virtual void visit(const Irrational& irrational) override;
 };
+
+//=================================Multiplication=================================
+
+class IMultiplicationValueVisitor : virtual public IValueVisitor {
+public:
+    std::unique_ptr<Value> val;
+};
+
+class MultiplicationFractionVisitor : public IMultiplicationValueVisitor {
+    const Fraction& value_;
+
+public:
+    MultiplicationFractionVisitor(const Fraction& f) : value_(f) {}
+
+    virtual void visit(const Fraction& fraction) override;
+    virtual void visit(const Irrational& irrational) override;
+};
+
+class MultiplicationIrrationalVisitor : public IMultiplicationValueVisitor {
+    const Irrational& value_;
+
+public:
+    MultiplicationIrrationalVisitor(const Irrational& i) : value_(i) {}
+
+    virtual void visit(const Fraction& fraction) override;
+    virtual void visit(const Irrational& irrational) override;
+};
+
+class MultiplicationValueVisitor : public IMultiplicationValueVisitor {
+    const Value& value_;
+
+public:
+    MultiplicationValueVisitor(const Value& val) : value_(val) {}
+    virtual void visit(const Fraction& fraction) override;
+    virtual void visit(const Irrational& irrational) override;
+};

@@ -6,9 +6,8 @@
 #include "value_visitor.h"
 
 class IAdditionValueVisitor;
-class AdditionFractionVisitor;
-class AdditionIrrationalVisitor;
-class AdditionValueVisitor;
+class ISubtractionValueVisitor;
+class IMultiplicationValueVisitor;
 
 /*=======================================VALUE=======================================*/
 
@@ -39,6 +38,14 @@ public:
 
     virtual std::unique_ptr<Value> operator-(Fraction const& other) const = 0;
     virtual std::unique_ptr<Value> operator-(Irrational const& other) const = 0;
+
+    // Multiplication
+    virtual void accept(IMultiplicationValueVisitor& visitor) const = 0;
+
+    virtual std::unique_ptr<Value> operator*(Value const& other) const;
+
+    virtual std::unique_ptr<Value> operator*(Fraction const& other) const = 0;
+    virtual std::unique_ptr<Value> operator*(Irrational const& other) const = 0;
 };
 
 /*=======================================FRACTION=======================================*/
@@ -73,6 +80,13 @@ public:
 
     virtual std::unique_ptr<Value> operator-(Irrational const& other) const override;
 
+    // Multiplication
+    virtual void accept(IMultiplicationValueVisitor& visitor) const override;
+
+    virtual std::unique_ptr<Value> operator*(Fraction const& other) const override;
+
+    virtual std::unique_ptr<Value> operator*(Irrational const& other) const override;
+
 private:
     void initializeFraction(int nominator, int denominator);
 };
@@ -105,4 +119,11 @@ public:
     virtual std::unique_ptr<Value> operator-(Fraction const& other) const override;
 
     virtual std::unique_ptr<Value> operator-(Irrational const& other) const override;
+
+    // Multiplication
+    virtual void accept(IMultiplicationValueVisitor& visitor) const override;
+
+    virtual std::unique_ptr<Value> operator*(Fraction const& other) const override;
+
+    virtual std::unique_ptr<Value> operator*(Irrational const& other) const override;
 };

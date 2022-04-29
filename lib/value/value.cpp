@@ -52,6 +52,14 @@ std::unique_ptr<Value> Value::operator-(Value const& other) const {
     return std::move(subtractionVisitor.val);
 }
 
+// Multiplication
+
+std::unique_ptr<Value> Value::operator*(Value const& other) const {
+    MultiplicationValueVisitor multiplicationVisitor(*this);
+    other.accept(multiplicationVisitor);
+    return std::move(multiplicationVisitor.val);
+}
+
 /*=======================================FRACTION=======================================*/
 
 std::istream& operator>>(std::istream& is, Fraction& val) {
@@ -150,6 +158,25 @@ std::unique_ptr<Value> Fraction::operator-(Irrational const& other) const {
     return std::make_unique<Irrational>(Irrational(value() - other.value()));
 }
 
+// Multiplication
+
+void Fraction::accept(IMultiplicationValueVisitor& visitor) const { visitor.visit(*this); }
+
+std::unique_ptr<Value> Fraction::operator*(Fraction const& other) const {
+    int nominator = 0;
+    int denominator = 0;
+
+    nominator = nominator_ * other.nominator();
+
+    denominator = denominator_ * other.denominator();
+
+    return std::make_unique<Fraction>(Fraction(nominator, denominator));
+}
+
+std::unique_ptr<Value> Fraction::operator*(Irrational const& other) const {
+    return std::make_unique<Irrational>(Irrational(value() * other.value()));
+}
+
 /*=======================================IRRATIONAL=======================================*/
 
 std::istream& operator>>(std::istream& is, Irrational& val) {
@@ -183,4 +210,16 @@ std::unique_ptr<Value> Irrational::operator-(Fraction const& other) const {
 
 std::unique_ptr<Value> Irrational::operator-(Irrational const& other) const {
     return std::make_unique<Irrational>(Irrational(value() - other.value()));
+}
+
+// Multiplication
+
+void Irrational::accept(IMultiplicationValueVisitor& visitor) const { visitor.visit(*this); }
+
+std::unique_ptr<Value> Irrational::operator*(Fraction const& other) const {
+    return std::make_unique<Irrational>(Irrational(value() * other.value()));
+}
+
+std::unique_ptr<Value> Irrational::operator*(Irrational const& other) const {
+    return std::make_unique<Irrational>(Irrational(value() * other.value()));
 }
