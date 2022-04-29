@@ -36,9 +36,11 @@ std::unique_ptr<Value> Value::read(std::istream& is) {
     }
 }
 
+// Addition
+
 std::unique_ptr<Value> Value::operator+(Value const& other) const {
-    AdditionVisitor additionVisitor(*this);
-    other.acceptAddition(additionVisitor);
+    AdditionValueVisitor additionVisitor(*this);
+    other.accept(additionVisitor);
     return std::move(additionVisitor.val);
 }
 
@@ -106,8 +108,10 @@ void Fraction::print(std::ostream& os) const {
     }
 }
 
-void Fraction::acceptAddition(ValueVisitor& visitor) const {
-    visitor.visitAddition(*this);
+// Addition
+
+void Fraction::accept(IAdditionValueVisitor& visitor) const {
+    visitor.visit(*this);
 }
 
 std::unique_ptr<Value> Fraction::operator+(Fraction const& other) const {
@@ -137,8 +141,10 @@ double Irrational::value() const { return value_; }
 
 void Irrational::print(std::ostream& os) const { os << value_; }
 
-void Irrational::acceptAddition(ValueVisitor& visitor) const {
-    visitor.visitAddition(*this);
+// Addition
+
+void Irrational::accept(IAdditionValueVisitor& visitor) const {
+    visitor.visit(*this);
 }
 
 std::unique_ptr<Value> Irrational::operator+(Fraction const& other) const {

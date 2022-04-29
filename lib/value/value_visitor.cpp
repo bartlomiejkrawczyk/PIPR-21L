@@ -2,28 +2,30 @@
 
 #include "value.h"
 
-void FractionVisitor::visitAddition(const Fraction& fraction) {
+//=================================Addition=================================
+
+void AdditionFractionVisitor::visit(const Fraction& fraction) {
     val = std::move(value_ + fraction);
 }
 
-void FractionVisitor::visitAddition(const Irrational& irrational) {
+void AdditionFractionVisitor::visit(const Irrational& irrational) {
     val = std::move(value_ + irrational);
 }
 
-void IrrationalVisitor::visitAddition(const Fraction& fraction) {
+void AdditionIrrationalVisitor::visit(const Fraction& fraction) {
     val = std::move(value_ + fraction);
 }
-void IrrationalVisitor::visitAddition(const Irrational& irrational) {
+void AdditionIrrationalVisitor::visit(const Irrational& irrational) {
     val = std::move(value_ + irrational);
 }
 
-void AdditionVisitor::visitAddition(const Fraction& fraction) {
-    FractionVisitor fractionVisitor(fraction);
-    value_.acceptAddition(fractionVisitor);
+void AdditionValueVisitor::visit(const Fraction& fraction) {
+    AdditionFractionVisitor fractionVisitor(fraction);
+    value_.accept(fractionVisitor);
     val = std::move(fractionVisitor.val);
 }
-void AdditionVisitor::visitAddition(const Irrational& irrational) {
-    IrrationalVisitor irrationalVisitor(irrational);
-    value_.acceptAddition(irrationalVisitor);
+void AdditionValueVisitor::visit(const Irrational& irrational) {
+    AdditionIrrationalVisitor irrationalVisitor(irrational);
+    value_.accept(irrationalVisitor);
     val = std::move(irrationalVisitor.val);
 }

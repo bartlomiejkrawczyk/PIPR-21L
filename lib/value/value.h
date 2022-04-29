@@ -5,10 +5,10 @@
 
 #include "value_visitor.h"
 
-class ValueVisitor;
-class FractionVisitor;
-class IrrationalVisitor;
-class AdditionVisitor;
+class IAdditionValueVisitor;
+class AdditionFractionVisitor;
+class AdditionIrrationalVisitor;
+class AdditionValueVisitor;
 
 /*=======================================VALUE=======================================*/
 
@@ -25,7 +25,7 @@ public:
 
     static std::unique_ptr<Value> read(std::istream& is);
 
-    virtual void acceptAddition(ValueVisitor& visitor) const = 0;
+    virtual void accept(IAdditionValueVisitor& visitor) const = 0;
 
     virtual std::unique_ptr<Value> operator+(Value const& other) const;
 
@@ -51,7 +51,7 @@ public:
 
     friend std::istream& operator>>(std::istream& is, Fraction& val);
 
-    virtual void acceptAddition(ValueVisitor& visitor) const override;
+    virtual void accept(IAdditionValueVisitor& visitor) const override;
 
     virtual std::unique_ptr<Value> operator+(
         Fraction const& other) const override;
@@ -78,7 +78,7 @@ public:
 
     friend std::istream& operator>>(std::istream& is, Irrational& val);
 
-    virtual void acceptAddition(ValueVisitor& visitor) const override;
+    virtual void accept(IAdditionValueVisitor& visitor) const override;
 
     virtual std::unique_ptr<Value> operator+(
         Fraction const& other) const override;
