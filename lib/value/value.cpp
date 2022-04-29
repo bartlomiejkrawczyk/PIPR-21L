@@ -78,16 +78,12 @@ std::istream& operator>>(std::istream& is, Fraction& val) {
     return is;
 }
 
-double Fraction::value() const {
-    return (double)nominator_ / (double)denominator_;
-}
+double Fraction::value() const { return (double)nominator_ / (double)denominator_; }
 
 int Fraction::nominator() const { return nominator_; }
 int Fraction::denominator() const { return denominator_; }
 
-Fraction::Fraction(int nominator, int denominator) {
-    initializeFraction(nominator, denominator);
-}
+Fraction::Fraction(int nominator, int denominator) { initializeFraction(nominator, denominator); }
 
 void Fraction::initializeFraction(int nominator, int denominator) {
     if (denominator == 0) throw std::domain_error("Zero Division Error!");
@@ -109,8 +105,8 @@ void Fraction::print(std::ostream& os) const {
     } else if (denominator_ == 1) {
         os << nominator_;
     } else if (std::abs(nominator_) > denominator_) {
-        os << nominator_ / denominator_ << "_"
-           << std::abs(nominator_) % denominator_ << "/" << denominator_;
+        os << nominator_ / denominator_ << "_" << std::abs(nominator_) % denominator_ << "/"
+           << denominator_;
     } else {
         os << nominator_ << "/" << denominator_;
     }
@@ -118,16 +114,13 @@ void Fraction::print(std::ostream& os) const {
 
 // Addition
 
-void Fraction::accept(IAdditionValueVisitor& visitor) const {
-    visitor.visit(*this);
-}
+void Fraction::accept(IAdditionValueVisitor& visitor) const { visitor.visit(*this); }
 
 std::unique_ptr<Value> Fraction::operator+(Fraction const& other) const {
     int nominator = 0;
     int denominator = 0;
 
-    nominator =
-        nominator_ * other.denominator() + other.nominator() * denominator_;
+    nominator = nominator_ * other.denominator() + other.nominator() * denominator_;
 
     denominator = denominator_ * other.denominator();
 
@@ -140,16 +133,13 @@ std::unique_ptr<Value> Fraction::operator+(Irrational const& other) const {
 
 // Subtraction
 
-void Fraction::accept(ISubtractionValueVisitor& visitor) const {
-    visitor.visit(*this);
-}
+void Fraction::accept(ISubtractionValueVisitor& visitor) const { visitor.visit(*this); }
 
 std::unique_ptr<Value> Fraction::operator-(Fraction const& other) const {
     int nominator = 0;
     int denominator = 0;
 
-    nominator =
-        nominator_ * other.denominator() - other.nominator() * denominator_;
+    nominator = nominator_ * other.denominator() - other.nominator() * denominator_;
 
     denominator = denominator_ * other.denominator();
 
@@ -173,9 +163,7 @@ void Irrational::print(std::ostream& os) const { os << value_; }
 
 // Addition
 
-void Irrational::accept(IAdditionValueVisitor& visitor) const {
-    visitor.visit(*this);
-}
+void Irrational::accept(IAdditionValueVisitor& visitor) const { visitor.visit(*this); }
 
 std::unique_ptr<Value> Irrational::operator+(Fraction const& other) const {
     return std::make_unique<Irrational>(Irrational(value() + other.value()));
@@ -187,9 +175,7 @@ std::unique_ptr<Value> Irrational::operator+(Irrational const& other) const {
 
 // Subtraction
 
-void Irrational::accept(ISubtractionValueVisitor& visitor) const {
-    visitor.visit(*this);
-}
+void Irrational::accept(ISubtractionValueVisitor& visitor) const { visitor.visit(*this); }
 
 std::unique_ptr<Value> Irrational::operator-(Fraction const& other) const {
     return std::make_unique<Irrational>(Irrational(value() - other.value()));
