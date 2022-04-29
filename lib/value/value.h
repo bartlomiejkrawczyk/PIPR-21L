@@ -8,6 +8,7 @@
 class IAdditionValueVisitor;
 class ISubtractionValueVisitor;
 class IMultiplicationValueVisitor;
+class IDivisionValueVisitor;
 
 /*=======================================VALUE=======================================*/
 
@@ -46,6 +47,14 @@ public:
 
     virtual std::unique_ptr<Value> operator*(Fraction const& other) const = 0;
     virtual std::unique_ptr<Value> operator*(Irrational const& other) const = 0;
+
+    // Division
+    virtual void accept(IDivisionValueVisitor& visitor) const = 0;
+
+    virtual std::unique_ptr<Value> operator/(Value const& other) const;
+
+    virtual std::unique_ptr<Value> operator/(Fraction const& other) const = 0;
+    virtual std::unique_ptr<Value> operator/(Irrational const& other) const = 0;
 };
 
 /*=======================================FRACTION=======================================*/
@@ -70,22 +79,25 @@ public:
     virtual void accept(IAdditionValueVisitor& visitor) const override;
 
     virtual std::unique_ptr<Value> operator+(Fraction const& other) const override;
-
     virtual std::unique_ptr<Value> operator+(Irrational const& other) const override;
 
     // Subtraction
     virtual void accept(ISubtractionValueVisitor& visitor) const override;
 
     virtual std::unique_ptr<Value> operator-(Fraction const& other) const override;
-
     virtual std::unique_ptr<Value> operator-(Irrational const& other) const override;
 
     // Multiplication
     virtual void accept(IMultiplicationValueVisitor& visitor) const override;
 
     virtual std::unique_ptr<Value> operator*(Fraction const& other) const override;
-
     virtual std::unique_ptr<Value> operator*(Irrational const& other) const override;
+
+    // Division
+    virtual void accept(IDivisionValueVisitor& visitor) const override;
+
+    virtual std::unique_ptr<Value> operator/(Fraction const& other) const override;
+    virtual std::unique_ptr<Value> operator/(Irrational const& other) const override;
 
 private:
     void initializeFraction(int nominator, int denominator);
@@ -110,20 +122,23 @@ public:
     virtual void accept(IAdditionValueVisitor& visitor) const override;
 
     virtual std::unique_ptr<Value> operator+(Fraction const& other) const override;
-
     virtual std::unique_ptr<Value> operator+(Irrational const& other) const override;
 
     // Subtraction
     virtual void accept(ISubtractionValueVisitor& visitor) const override;
 
     virtual std::unique_ptr<Value> operator-(Fraction const& other) const override;
-
     virtual std::unique_ptr<Value> operator-(Irrational const& other) const override;
 
     // Multiplication
     virtual void accept(IMultiplicationValueVisitor& visitor) const override;
 
     virtual std::unique_ptr<Value> operator*(Fraction const& other) const override;
-
     virtual std::unique_ptr<Value> operator*(Irrational const& other) const override;
+
+    // Division
+    virtual void accept(IDivisionValueVisitor& visitor) const override;
+
+    virtual std::unique_ptr<Value> operator/(Fraction const& other) const override;
+    virtual std::unique_ptr<Value> operator/(Irrational const& other) const override;
 };

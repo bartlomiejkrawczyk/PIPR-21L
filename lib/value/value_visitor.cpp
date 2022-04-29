@@ -85,3 +85,31 @@ void MultiplicationValueVisitor::visit(const Irrational& irrational) {
     value_.accept(irrationalVisitor);
     val = std::move(irrationalVisitor.val);
 }
+
+//=================================Division=================================
+
+void DivisionFractionVisitor::visit(const Fraction& fraction) {
+    val = std::move(fraction / value_);
+}
+
+void DivisionFractionVisitor::visit(const Irrational& irrational) {
+    val = std::move(irrational / value_);
+}
+
+void DivisionIrrationalVisitor::visit(const Fraction& fraction) {
+    val = std::move(fraction / value_);
+}
+void DivisionIrrationalVisitor::visit(const Irrational& irrational) {
+    val = std::move(irrational / value_);
+}
+
+void DivisionValueVisitor::visit(const Fraction& fraction) {
+    DivisionFractionVisitor fractionVisitor(fraction);
+    value_.accept(fractionVisitor);
+    val = std::move(fractionVisitor.val);
+}
+void DivisionValueVisitor::visit(const Irrational& irrational) {
+    DivisionIrrationalVisitor irrationalVisitor(irrational);
+    value_.accept(irrationalVisitor);
+    val = std::move(irrationalVisitor.val);
+}

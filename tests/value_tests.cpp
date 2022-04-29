@@ -567,6 +567,83 @@ TEST_CASE("Multiplay irrational by fraction", "value-fraction") {
     REQUIRE(areEqual(ir->value(), -1.68));
 }
 
+// Division
+
+TEST_CASE("Divide two positive fractions", "value-fraction") {
+    Fraction f1(3, 4);
+    Fraction f2(3, 4);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) / (*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == 1);
+    REQUIRE(fr->denominator() == 1);
+}
+
+TEST_CASE("Divide two negative fractions", "value-fraction") {
+    Fraction f1(-7, 5);
+    Fraction f2(-1, 2);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) / (*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == 14);
+    REQUIRE(fr->denominator() == 5);
+}
+
+TEST_CASE("Divide positive by negative fractions", "value-fraction") {
+    Fraction f1(7, 5);
+    Fraction f2(-1, 2);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) / (*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == -14);
+    REQUIRE(fr->denominator() == 5);
+}
+
+TEST_CASE("Divide negative by positive fractions", "value-fraction") {
+    Fraction f1(-7, 5);
+    Fraction f2(1, 2);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) / (*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == -14);
+    REQUIRE(fr->denominator() == 5);
+}
+
+TEST_CASE("Divide fraction by irrational", "value-fraction") {
+    Fraction f1(-7, 5);
+    Irrational i2(1.2);
+    Value* v1 = &f1;
+    Value* v2 = &i2;
+
+    std::unique_ptr<Value> result = ((*v1) / (*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(ir->value() == -1.4 / 1.2);
+    REQUIRE(areEqual(ir->value(), -1.4 / 1.2));
+}
+
 // ===================================================================================
 
 // Constructor
@@ -808,4 +885,34 @@ TEST_CASE("Multiply irrational by fraction", "value-irrational") {
 
     REQUIRE(ir != nullptr);
     REQUIRE(areEqual(ir->value(), -6.125));
+}
+
+// Division
+
+TEST_CASE("Divide two irrationals", "value-irrational") {
+    Irrational i1(-3.5);
+    Irrational i2(7.4);
+    Value* v1 = &i1;
+    Value* v2 = &i2;
+
+    std::unique_ptr<Value> result = ((*v1) / (*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(areEqual(ir->value(), -3.5 / 7.4));
+}
+
+TEST_CASE("Divide irrational by fraction", "value-irrational") {
+    Irrational i1(-3.5);
+    Fraction f2(7, 4);
+    Value* v1 = &i1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) / (*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(areEqual(ir->value(), -2));
 }

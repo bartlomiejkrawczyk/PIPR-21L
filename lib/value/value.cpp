@@ -60,6 +60,14 @@ std::unique_ptr<Value> Value::operator*(Value const& other) const {
     return std::move(multiplicationVisitor.val);
 }
 
+// Division
+
+std::unique_ptr<Value> Value::operator/(Value const& other) const {
+    DivisionValueVisitor divisionVisitor(*this);
+    other.accept(divisionVisitor);
+    return std::move(divisionVisitor.val);
+}
+
 /*=======================================FRACTION=======================================*/
 
 std::istream& operator>>(std::istream& is, Fraction& val) {
@@ -177,6 +185,26 @@ std::unique_ptr<Value> Fraction::operator*(Irrational const& other) const {
     return std::make_unique<Irrational>(Irrational(value() * other.value()));
 }
 
+// Division
+
+void Fraction::accept(IDivisionValueVisitor& visitor) const { visitor.visit(*this); }
+
+std::unique_ptr<Value> Fraction::operator/(Fraction const& other) const {
+    int nominator = 0;
+    int denominator = 0;
+
+    nominator = nominator_ * other.denominator();
+
+    denominator = denominator_ * other.nominator();
+
+    return std::make_unique<Fraction>(Fraction(nominator, denominator));
+}
+
+std::unique_ptr<Value> Fraction::operator/(Irrational const& other) const {
+    return std::make_unique<Irrational>(
+        Irrational((double)nominator() / (double)denominator() / other.value()));
+}
+
 /*=======================================IRRATIONAL=======================================*/
 
 std::istream& operator>>(std::istream& is, Irrational& val) {
@@ -222,4 +250,16 @@ std::unique_ptr<Value> Irrational::operator*(Fraction const& other) const {
 
 std::unique_ptr<Value> Irrational::operator*(Irrational const& other) const {
     return std::make_unique<Irrational>(Irrational(value() * other.value()));
+}
+
+// Division
+
+void Irrational::accept(IDivisionValueVisitor& visitor) const { visitor.visit(*this); }
+
+std::unique_ptr<Value> Irrational::operator/(Fraction const& other) const {
+    return std::make_unique<Irrational>(Irrational(value() / other.value()));
+}
+
+std::unique_ptr<Value> Irrational::operator/(Irrational const& other) const {
+    return std::make_unique<Irrational>(Irrational(value() / other.value()));
 }

@@ -119,3 +119,39 @@ public:
     virtual void visit(const Fraction& fraction) override;
     virtual void visit(const Irrational& irrational) override;
 };
+
+//=================================Division=================================
+
+class IDivisionValueVisitor : virtual public IValueVisitor {
+public:
+    std::unique_ptr<Value> val;
+};
+
+class DivisionFractionVisitor : public IDivisionValueVisitor {
+    const Fraction& value_;
+
+public:
+    DivisionFractionVisitor(const Fraction& f) : value_(f) {}
+
+    virtual void visit(const Fraction& fraction) override;
+    virtual void visit(const Irrational& irrational) override;
+};
+
+class DivisionIrrationalVisitor : public IDivisionValueVisitor {
+    const Irrational& value_;
+
+public:
+    DivisionIrrationalVisitor(const Irrational& i) : value_(i) {}
+
+    virtual void visit(const Fraction& fraction) override;
+    virtual void visit(const Irrational& irrational) override;
+};
+
+class DivisionValueVisitor : public IDivisionValueVisitor {
+    const Value& value_;
+
+public:
+    DivisionValueVisitor(const Value& val) : value_(val) {}
+    virtual void visit(const Fraction& fraction) override;
+    virtual void visit(const Irrational& irrational) override;
+};
