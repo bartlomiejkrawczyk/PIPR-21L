@@ -9,6 +9,7 @@ class IAdditionValueVisitor;
 class ISubtractionValueVisitor;
 class IMultiplicationValueVisitor;
 class IDivisionValueVisitor;
+class IPowerValueVisitor;
 
 /*=======================================VALUE=======================================*/
 
@@ -55,6 +56,14 @@ public:
 
     virtual std::unique_ptr<Value> operator/(const Fraction& other) const = 0;
     virtual std::unique_ptr<Value> operator/(const Irrational& other) const = 0;
+
+    // Power
+    virtual void accept(IPowerValueVisitor& visitor) const = 0;
+
+    virtual std::unique_ptr<Value> power(const Value& other) const;
+
+    virtual std::unique_ptr<Value> power(const Fraction& other) const = 0;
+    virtual std::unique_ptr<Value> power(const Irrational& other) const = 0;
 };
 
 /*=======================================FRACTION=======================================*/
@@ -99,6 +108,12 @@ public:
     virtual std::unique_ptr<Value> operator/(const Fraction& other) const override;
     virtual std::unique_ptr<Value> operator/(const Irrational& other) const override;
 
+    // Power
+    virtual void accept(IPowerValueVisitor& visitor) const override;
+
+    virtual std::unique_ptr<Value> power(const Fraction& other) const override;
+    virtual std::unique_ptr<Value> power(const Irrational& other) const override;
+
 private:
     void initializeFraction(int nominator, int denominator);
 };
@@ -141,4 +156,10 @@ public:
 
     virtual std::unique_ptr<Value> operator/(const Fraction& other) const override;
     virtual std::unique_ptr<Value> operator/(const Irrational& other) const override;
+
+    // Power
+    virtual void accept(IPowerValueVisitor& visitor) const override;
+
+    virtual std::unique_ptr<Value> power(const Fraction& other) const override;
+    virtual std::unique_ptr<Value> power(const Irrational& other) const override;
 };

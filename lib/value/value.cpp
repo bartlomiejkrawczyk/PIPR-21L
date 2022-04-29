@@ -1,5 +1,7 @@
 #include "value.h"
 
+#include <math.h>
+
 #include <numeric>
 #include <sstream>
 #include <string>
@@ -66,6 +68,14 @@ std::unique_ptr<Value> Value::operator/(const Value& other) const {
     DivisionValueVisitor divisionVisitor(*this);
     other.accept(divisionVisitor);
     return std::move(divisionVisitor.val);
+}
+
+// Power
+
+std::unique_ptr<Value> Value::power(const Value& other) const {
+    PowerValueVisitor powerVisitor(*this);
+    other.accept(powerVisitor);
+    return std::move(powerVisitor.val);
 }
 
 /*=======================================FRACTION=======================================*/
@@ -201,8 +211,28 @@ std::unique_ptr<Value> Fraction::operator/(const Fraction& other) const {
 }
 
 std::unique_ptr<Value> Fraction::operator/(const Irrational& other) const {
-    return std::make_unique<Irrational>(
-        Irrational((double)nominator() / (double)denominator() / other.value()));
+    return std::make_unique<Irrational>(Irrational(value() / other.value()));
+}
+
+// Power
+
+void Fraction::accept(IPowerValueVisitor& visitor) const { visitor.visit(*this); }
+
+std::unique_ptr<Value> Fraction::power(const Fraction& other) const {
+    if (other.denominator() == 1) {
+        if (other.nominator() >= 0) {
+            return std::make_unique<Fraction>(Fraction(std::pow(nominator_, other.nominator()),
+                                                       std::pow(denominator_, other.nominator())));
+        }
+        return std::make_unique<Fraction>(Fraction(std::pow(denominator_, -other.nominator()),
+                                                   std::pow(nominator_, -other.nominator())));
+    }
+
+    return std::make_unique<Irrational>(Irrational(std::pow(value(), other.value())));
+}
+
+std::unique_ptr<Value> Fraction::power(const Irrational& other) const {
+    return std::make_unique<Irrational>(Irrational(std::pow(value(), other.value())));
 }
 
 /*=======================================IRRATIONAL=======================================*/
@@ -262,4 +292,19 @@ std::unique_ptr<Value> Irrational::operator/(const Fraction& other) const {
 
 std::unique_ptr<Value> Irrational::operator/(const Irrational& other) const {
     return std::make_unique<Irrational>(Irrational(value() / other.value()));
+}
+
+// Power
+
+void Irrational::accept(IPowerValueVisitor& visitor) const { visitor.visit(*this); }
+
+std::unique_ptr<Value> Irrational::power(const Fraction& other) const {
+    if (other.nominator() == 0) {
+        return std::make_unique<Fraction>(Fraction(1));
+    }
+    return std::make_unique<Irrational>(Irrational(std::pow(value(), other.value())));
+}
+
+std::unique_ptr<Value> Irrational::power(const Irrational& other) const {
+    return std::make_unique<Irrational>(Irrational(std::pow(value(), other.value())));
 }

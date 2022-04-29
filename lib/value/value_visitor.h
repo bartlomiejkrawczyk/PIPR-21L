@@ -155,3 +155,39 @@ public:
     virtual void visit(const Fraction& fraction) override;
     virtual void visit(const Irrational& irrational) override;
 };
+
+//=================================Power=================================
+
+class IPowerValueVisitor : virtual public IValueVisitor {
+public:
+    std::unique_ptr<Value> val;
+};
+
+class PowerFractionVisitor : public IPowerValueVisitor {
+    const Fraction& value_;
+
+public:
+    PowerFractionVisitor(const Fraction& f) : value_(f) {}
+
+    virtual void visit(const Fraction& fraction) override;
+    virtual void visit(const Irrational& irrational) override;
+};
+
+class PowerIrrationalVisitor : public IPowerValueVisitor {
+    const Irrational& value_;
+
+public:
+    PowerIrrationalVisitor(const Irrational& i) : value_(i) {}
+
+    virtual void visit(const Fraction& fraction) override;
+    virtual void visit(const Irrational& irrational) override;
+};
+
+class PowerValueVisitor : public IPowerValueVisitor {
+    const Value& value_;
+
+public:
+    PowerValueVisitor(const Value& val) : value_(val) {}
+    virtual void visit(const Fraction& fraction) override;
+    virtual void visit(const Irrational& irrational) override;
+};

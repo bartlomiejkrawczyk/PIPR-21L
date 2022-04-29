@@ -644,6 +644,96 @@ TEST_CASE("Divide fraction by irrational", "value-fraction") {
     REQUIRE(areEqual(ir->value(), -1.4 / 1.2));
 }
 
+// Power
+
+TEST_CASE("Fraction to integer power", "value-fraction") {
+    Fraction f1(3, 4);
+    Fraction f2(3);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1).power(*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == 27);
+    REQUIRE(fr->denominator() == 64);
+}
+
+TEST_CASE("Fraction to negative integer power", "value-fraction") {
+    Fraction f1(3, 4);
+    Fraction f2(-3);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1).power(*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == 64);
+    REQUIRE(fr->denominator() == 27);
+}
+
+TEST_CASE("Negative fraction to even power", "value-fraction") {
+    Fraction f1(-3, 4);
+    Fraction f2(2);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1).power(*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == 9);
+    REQUIRE(fr->denominator() == 16);
+}
+
+TEST_CASE("Negative fraction to negative even power", "value-fraction") {
+    Fraction f1(-3, 4);
+    Fraction f2(-2);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1).power(*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == 16);
+    REQUIRE(fr->denominator() == 9);
+}
+
+TEST_CASE("Fraction to fraction power", "value-fraction") {
+    Fraction f1(3, 4);
+    Fraction f2(3, 4);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1).power(*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(ir->value() == std::pow(0.75, 0.75));
+}
+
+TEST_CASE("Fraction to irrational power", "value-fraction") {
+    Fraction f1(3, 4);
+    Irrational i2(-3.4);
+    Value* v1 = &f1;
+    Value* v2 = &i2;
+
+    std::unique_ptr<Value> result = ((*v1).power(*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(ir->value() == std::pow(0.75, -3.4));
+}
+
 // ===================================================================================
 
 // Constructor
@@ -915,4 +1005,49 @@ TEST_CASE("Divide irrational by fraction", "value-irrational") {
 
     REQUIRE(ir != nullptr);
     REQUIRE(areEqual(ir->value(), -2));
+}
+
+// Power
+
+TEST_CASE("Irrational to irrational power", "value-irrational") {
+    Irrational i1(3.5);
+    Irrational i2(7.4);
+    Value* v1 = &i1;
+    Value* v2 = &i2;
+
+    std::unique_ptr<Value> result = ((*v1).power(*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(ir->value() == std::pow(3.5, 7.4));
+}
+
+TEST_CASE("Irrational to fraction power", "value-irrational") {
+    Irrational i1(3.5);
+    Fraction f2(7, 4);
+    Value* v1 = &i1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1).power(*v2));
+
+    Irrational* ir = dynamic_cast<Irrational*>(result.get());
+
+    REQUIRE(ir != nullptr);
+    REQUIRE(ir->value() == std::pow(3.5, 1.75));
+}
+
+TEST_CASE("Irrational to zero power", "value-irrational") {
+    Irrational i1(-3.5);
+    Fraction f2;
+    Value* v1 = &i1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1).power(*v2));
+
+    Fraction* fr = dynamic_cast<Fraction*>(result.get());
+
+    REQUIRE(fr != nullptr);
+    REQUIRE(fr->nominator() == 1);
+    REQUIRE(fr->denominator() == 1);
 }

@@ -113,3 +113,31 @@ void DivisionValueVisitor::visit(const Irrational& irrational) {
     value_.accept(irrationalVisitor);
     val = std::move(irrationalVisitor.val);
 }
+
+//=================================Power=================================
+
+void PowerFractionVisitor::visit(const Fraction& fraction) {
+    val = std::move(fraction.power(value_));
+}
+
+void PowerFractionVisitor::visit(const Irrational& irrational) {
+    val = std::move(irrational.power(value_));
+}
+
+void PowerIrrationalVisitor::visit(const Fraction& fraction) {
+    val = std::move(fraction.power(value_));
+}
+void PowerIrrationalVisitor::visit(const Irrational& irrational) {
+    val = std::move(irrational.power(value_));
+}
+
+void PowerValueVisitor::visit(const Fraction& fraction) {
+    PowerFractionVisitor fractionVisitor(fraction);
+    value_.accept(fractionVisitor);
+    val = std::move(fractionVisitor.val);
+}
+void PowerValueVisitor::visit(const Irrational& irrational) {
+    PowerIrrationalVisitor irrationalVisitor(irrational);
+    value_.accept(irrationalVisitor);
+    val = std::move(irrationalVisitor.val);
+}
