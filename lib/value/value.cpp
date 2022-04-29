@@ -4,6 +4,8 @@
 #include <sstream>
 #include <string>
 
+#include "value_visitor.h"
+
 /*=======================================VALUE=======================================*/
 
 std::ostream& operator<<(std::ostream& os, const Value& val) {
@@ -32,6 +34,12 @@ std::unique_ptr<Value> Value::read(std::istream& is) {
 
         return std::make_unique<Fraction>(fraction);
     }
+}
+
+std::unique_ptr<Value> Value::operator+(Value const& other) const {
+    AdditionVisitor additionVisitor(*this);
+    other.acceptAddition(additionVisitor);
+    return std::move(additionVisitor.val);
 }
 
 /*=======================================FRACTION=======================================*/
@@ -98,6 +106,26 @@ void Fraction::print(std::ostream& os) const {
     }
 }
 
+void Fraction::acceptAddition(ValueVisitor& visitor) const {
+    visitor.visitAddition(*this);
+}
+
+std::unique_ptr<Value> Fraction::operator+(Fraction const& other) const {
+    int nominator = 0;
+    int denominator = 0;
+
+    nominator =
+        nominator_ * other.denominator() + other.nominator() * denominator_;
+
+    denominator = denominator_ * other.denominator();
+
+    return std::make_unique<Fraction>(Fraction(nominator, denominator));
+}
+
+std::unique_ptr<Value> Fraction::operator+(Irrational const& other) const {
+    return std::make_unique<Irrational>(Irrational(value() + other.value()));
+}
+
 /*=======================================IRRATIONAL=======================================*/
 
 std::istream& operator>>(std::istream& is, Irrational& val) {
@@ -108,3 +136,15 @@ std::istream& operator>>(std::istream& is, Irrational& val) {
 double Irrational::value() const { return value_; }
 
 void Irrational::print(std::ostream& os) const { os << value_; }
+
+void Irrational::acceptAddition(ValueVisitor& visitor) const {
+    visitor.visitAddition(*this);
+}
+
+std::unique_ptr<Value> Irrational::operator+(Fraction const& other) const {
+    return std::make_unique<Irrational>(Irrational(value() + other.value()));
+}
+
+std::unique_ptr<Value> Irrational::operator+(Irrational const& other) const {
+    return std::make_unique<Irrational>(Irrational(value() + other.value()));
+}

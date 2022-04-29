@@ -356,6 +356,19 @@ TEST_CASE("Check if negative fraction smaller than -10 loads from stream",
     REQUIRE(fraction->denominator() == 79);
 }
 
+// Addition
+
+TEST_CASE("Add two fractions", "value-fraction") {
+    Fraction f1(3, 4);
+    Fraction f2(3, 4);
+    Value* v1 = &f1;
+    Value* v2 = &f2;
+
+    std::unique_ptr<Value> result = ((*v1) + (*v2));
+
+    REQUIRE(dynamic_cast<Fraction*>(result.get()) != nullptr);
+}
+
 // ===================================================================================
 
 // Constructor

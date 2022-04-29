@@ -3,6 +3,13 @@
 #include <iostream>
 #include <memory>
 
+#include "value_visitor.h"
+
+class ValueVisitor;
+class FractionVisitor;
+class IrrationalVisitor;
+class AdditionVisitor;
+
 /*=======================================VALUE=======================================*/
 
 class Value {
@@ -17,6 +24,13 @@ public:
     virtual void print(std::ostream& os) const = 0;
 
     static std::unique_ptr<Value> read(std::istream& is);
+
+    virtual void acceptAddition(ValueVisitor& visitor) const = 0;
+
+    virtual std::unique_ptr<Value> operator+(Value const& other) const;
+
+    virtual std::unique_ptr<Value> operator+(Fraction const& other) const = 0;
+    virtual std::unique_ptr<Value> operator+(Irrational const& other) const = 0;
 };
 
 /*=======================================FRACTION=======================================*/
@@ -37,6 +51,14 @@ public:
 
     friend std::istream& operator>>(std::istream& is, Fraction& val);
 
+    virtual void acceptAddition(ValueVisitor& visitor) const override;
+
+    virtual std::unique_ptr<Value> operator+(
+        Fraction const& other) const override;
+
+    virtual std::unique_ptr<Value> operator+(
+        Irrational const& other) const override;
+
 private:
     void initializeFraction(int nominator, int denominator);
 };
@@ -52,7 +74,15 @@ public:
 
     virtual double value() const override;
 
-    void print(std::ostream& os) const;
+    void print(std::ostream& os) const override;
 
     friend std::istream& operator>>(std::istream& is, Irrational& val);
+
+    virtual void acceptAddition(ValueVisitor& visitor) const override;
+
+    virtual std::unique_ptr<Value> operator+(
+        Fraction const& other) const override;
+
+    virtual std::unique_ptr<Value> operator+(
+        Irrational const& other) const override;
 };
