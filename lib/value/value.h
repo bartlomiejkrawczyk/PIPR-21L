@@ -27,34 +27,34 @@ public:
     // Addition
     virtual void accept(IAdditionValueVisitor& visitor) const = 0;
 
-    virtual std::unique_ptr<Value> operator+(Value const& other) const;
+    virtual std::unique_ptr<Value> operator+(const Value& other) const;
 
-    virtual std::unique_ptr<Value> operator+(Fraction const& other) const = 0;
-    virtual std::unique_ptr<Value> operator+(Irrational const& other) const = 0;
+    virtual std::unique_ptr<Value> operator+(const Fraction& other) const = 0;
+    virtual std::unique_ptr<Value> operator+(const Irrational& other) const = 0;
 
     // Subtraction
     virtual void accept(ISubtractionValueVisitor& visitor) const = 0;
 
-    virtual std::unique_ptr<Value> operator-(Value const& other) const;
+    virtual std::unique_ptr<Value> operator-(const Value& other) const;
 
-    virtual std::unique_ptr<Value> operator-(Fraction const& other) const = 0;
-    virtual std::unique_ptr<Value> operator-(Irrational const& other) const = 0;
+    virtual std::unique_ptr<Value> operator-(const Fraction& other) const = 0;
+    virtual std::unique_ptr<Value> operator-(const Irrational& other) const = 0;
 
     // Multiplication
     virtual void accept(IMultiplicationValueVisitor& visitor) const = 0;
 
-    virtual std::unique_ptr<Value> operator*(Value const& other) const;
+    virtual std::unique_ptr<Value> operator*(const Value& other) const;
 
-    virtual std::unique_ptr<Value> operator*(Fraction const& other) const = 0;
-    virtual std::unique_ptr<Value> operator*(Irrational const& other) const = 0;
+    virtual std::unique_ptr<Value> operator*(const Fraction& other) const = 0;
+    virtual std::unique_ptr<Value> operator*(const Irrational& other) const = 0;
 
     // Division
     virtual void accept(IDivisionValueVisitor& visitor) const = 0;
 
-    virtual std::unique_ptr<Value> operator/(Value const& other) const;
+    virtual std::unique_ptr<Value> operator/(const Value& other) const;
 
-    virtual std::unique_ptr<Value> operator/(Fraction const& other) const = 0;
-    virtual std::unique_ptr<Value> operator/(Irrational const& other) const = 0;
+    virtual std::unique_ptr<Value> operator/(const Fraction& other) const = 0;
+    virtual std::unique_ptr<Value> operator/(const Irrational& other) const = 0;
 };
 
 /*=======================================FRACTION=======================================*/
@@ -78,26 +78,26 @@ public:
     // Addition
     virtual void accept(IAdditionValueVisitor& visitor) const override;
 
-    virtual std::unique_ptr<Value> operator+(Fraction const& other) const override;
-    virtual std::unique_ptr<Value> operator+(Irrational const& other) const override;
+    virtual std::unique_ptr<Value> operator+(const Fraction& other) const override;
+    virtual std::unique_ptr<Value> operator+(const Irrational& other) const override;
 
     // Subtraction
     virtual void accept(ISubtractionValueVisitor& visitor) const override;
 
-    virtual std::unique_ptr<Value> operator-(Fraction const& other) const override;
-    virtual std::unique_ptr<Value> operator-(Irrational const& other) const override;
+    virtual std::unique_ptr<Value> operator-(const Fraction& other) const override;
+    virtual std::unique_ptr<Value> operator-(const Irrational& other) const override;
 
     // Multiplication
     virtual void accept(IMultiplicationValueVisitor& visitor) const override;
 
-    virtual std::unique_ptr<Value> operator*(Fraction const& other) const override;
-    virtual std::unique_ptr<Value> operator*(Irrational const& other) const override;
+    virtual std::unique_ptr<Value> operator*(const Fraction& other) const override;
+    virtual std::unique_ptr<Value> operator*(const Irrational& other) const override;
 
     // Division
     virtual void accept(IDivisionValueVisitor& visitor) const override;
 
-    virtual std::unique_ptr<Value> operator/(Fraction const& other) const override;
-    virtual std::unique_ptr<Value> operator/(Irrational const& other) const override;
+    virtual std::unique_ptr<Value> operator/(const Fraction& other) const override;
+    virtual std::unique_ptr<Value> operator/(const Irrational& other) const override;
 
 private:
     void initializeFraction(int nominator, int denominator);
@@ -121,24 +121,24 @@ public:
     // Addition
     virtual void accept(IAdditionValueVisitor& visitor) const override;
 
-    virtual std::unique_ptr<Value> operator+(Fraction const& other) const override;
-    virtual std::unique_ptr<Value> operator+(Irrational const& other) const override;
+    virtual std::unique_ptr<Value> operator+(const Fraction& other) const override;
+    virtual std::unique_ptr<Value> operator+(const Irrational& other) const override;
 
     // Subtraction
     virtual void accept(ISubtractionValueVisitor& visitor) const override;
 
-    virtual std::unique_ptr<Value> operator-(Fraction const& other) const override;
-    virtual std::unique_ptr<Value> operator-(Irrational const& other) const override;
+    virtual std::unique_ptr<Value> operator-(const Fraction& other) const override;
+    virtual std::unique_ptr<Value> operator-(const Irrational& other) const override;
 
     // Multiplication
     virtual void accept(IMultiplicationValueVisitor& visitor) const override;
 
-    virtual std::unique_ptr<Value> operator*(Fraction const& other) const override;
-    virtual std::unique_ptr<Value> operator*(Irrational const& other) const override;
+    virtual std::unique_ptr<Value> operator*(const Fraction& other) const override;
+    virtual std::unique_ptr<Value> operator*(const Irrational& other) const override;
 
     // Division
     virtual void accept(IDivisionValueVisitor& visitor) const override;
 
-    virtual std::unique_ptr<Value> operator/(Fraction const& other) const override;
-    virtual std::unique_ptr<Value> operator/(Irrational const& other) const override;
+    virtual std::unique_ptr<Value> operator/(const Fraction& other) const override;
+    virtual std::unique_ptr<Value> operator/(const Irrational& other) const override;
 };
