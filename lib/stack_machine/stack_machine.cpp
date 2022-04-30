@@ -6,8 +6,6 @@
 #include <sstream>
 #include <vector>
 
-#include "operations.h"
-
 // Stack Functionality
 
 StackMachine::StackMachine() {}
@@ -98,11 +96,11 @@ void StackMachine::performOperation(
 
 // Arithmetic opertors
 
-inline void StackMachine::add() { performOperation(&addition); }        // a + b
-inline void StackMachine::sub() { performOperation(&subtraction); }     // a - b
-inline void StackMachine::mul() { performOperation(&multiplication); }  // a * b
-inline void StackMachine::div() { performOperation(&division); }        // a / b
-inline void StackMachine::pow() { performOperation(&power); }           // a ^ b
+void StackMachine::add() { performOperation(&addition); }        // a + b
+void StackMachine::sub() { performOperation(&subtraction); }     // a - b
+void StackMachine::mul() { performOperation(&multiplication); }  // a * b
+void StackMachine::div() { performOperation(&division); }        // a / b
+void StackMachine::pow() { performOperation(&power); }           // a ^ b
 
 void StackMachine::swap() {
     if (stack.size() < 2) throw std::out_of_range("Not enough values on the stack!");
@@ -114,7 +112,7 @@ void StackMachine::swap() {
     stack.push_back(std::move(second));
 }
 
-inline void StackMachine::dup() {
+void StackMachine::dup() {
     if (stack.size() == 0) throw std::out_of_range("Empty Stack!");
     stack.push_back(stack.back()->clone());
 }

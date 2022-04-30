@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "../value/value.h"
+#include "operations.h"
 
 class StackMachine {
     std::vector<std::unique_ptr<Value>> stack;
@@ -64,20 +65,20 @@ public:
     // Arithmetic opertors
 
     // a + b
-    inline void add();
+    void add();
     // a - b
-    inline void sub();
+    void sub();
     // a * b
-    inline void mul();
+    void mul();
     // a / b
-    inline void div();
+    void div();
     // a ^ b
-    inline void pow();
+    void pow();
 
     // Swap positions of the top two elements
     void swap();
     // Duplicate top value
-    inline void dup();
+    void dup();
 
     friend std::ostream& operator<<(std::ostream& os, StackMachine const& machine);
 };
