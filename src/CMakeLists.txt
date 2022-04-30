@@ -1,2 +1,2 @@
 add_executable(main main.cpp)
-target_link_libraries(main stack_machine)
+target_link_libraries(main program)
