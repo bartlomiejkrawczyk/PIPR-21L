@@ -12,11 +12,11 @@ class Value;
 
 class Program {
     std::vector<std::unique_ptr<Command>> instructions;
-    size_t instruction = 0;
 
 public:
     Memory memory;
     StackMachine stack;
+    size_t instruction = 0;
 
     void addInstruction(std::unique_ptr<Command> instruction);
 

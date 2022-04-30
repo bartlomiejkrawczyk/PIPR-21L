@@ -23,6 +23,26 @@ std::unique_ptr<Command> Command::read(std::istream& is) {
         int address;
         is >> address;
         return std::make_unique<WriteCommand>(WriteCommand(address));
+    } else if (command == "JUMP") {
+        int address;
+        is >> address;
+        return std::make_unique<JumpCommand>(JumpCommand(address));
+    } else if (command == "JUMP_ZERO") {
+        int address;
+        is >> address;
+        return std::make_unique<JumpZeroCommand>(JumpZeroCommand(address));
+    } else if (command == "JUMP_NOT_ZERO") {
+        int address;
+        is >> address;
+        return std::make_unique<JumpNotZeroCommand>(JumpNotZeroCommand(address));
+    } else if (command == "CALL") {
+        int address;
+        is >> address;
+        return std::make_unique<CallCommand>(CallCommand(address));
+    } else if (command == "RET") {
+        int address;
+        is >> address;
+        return std::make_unique<ReturnCommand>(ReturnCommand());
     }
 
     return nullptr;
@@ -67,3 +87,54 @@ void WriteCommand::print(std::ostream& os) const {
     os << "WRITE"
        << " " << address << std::endl;
 }
+
+// JUMP
+
+void JumpCommand::performOperation(Program& program) const { program.instruction = address; }
+
+void JumpCommand::print(std::ostream& os) const {
+    os << "JUMP"
+       << " " << address << std::endl;
+}
+
+// JUMP_ZERO
+
+void JumpZeroCommand::performOperation(Program& program) const {
+    if (program.stack.top().value() == 0.0) program.instruction = address;
+}
+
+void JumpZeroCommand::print(std::ostream& os) const {
+    os << "JUMP_ZERO"
+       << " " << address << std::endl;
+}
+
+// JUMP_NOT_ZERO
+
+void JumpZeroCommand::performOperation(Program& program) const {
+    if (program.stack.top().value() != 0.0) program.instruction = address;
+}
+
+void JumpZeroCommand::print(std::ostream& os) const {
+    os << "JUMP_NOT_ZERO"
+       << " " << address << std::endl;
+}
+
+// CALL
+
+void CallCommand::performOperation(Program& program) const {
+    program.stack.push(std::make_unique<Fraction>(Fraction(program.instruction)));
+    program.instruction = address;
+}
+
+void CallCommand::print(std::ostream& os) const {
+    os << "CALL"
+       << " " << address << std::endl;
+}
+
+// RET
+
+void ReturnCommand::performOperation(Program& program) const {
+    program.instruction = (int)program.stack.peekAndPop()->value();
+}
+
+void ReturnCommand::print(std::ostream& os) const { os << "RET" << std::endl; }

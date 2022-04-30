@@ -8,8 +8,7 @@ void Program::addInstruction(std::unique_ptr<Command> instruction) {
 
 void Program::step() {
     if (instructions.size() > instruction) {
-        call(*instructions[instruction]);
-        ++instruction;
+        call(*instructions[instruction++]);
     }
 }
 

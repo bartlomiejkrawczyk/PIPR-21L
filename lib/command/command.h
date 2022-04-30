@@ -24,7 +24,6 @@ class PushCommand : public Command {
     std::unique_ptr<Value> value;
 
 public:
-    PushCommand() {}
     PushCommand(std::unique_ptr<Value> val) : value(std::move(val)) {}
 
     virtual void performOperation(Program& program) const override;
@@ -35,7 +34,6 @@ class ReadCommand : public Command {
     int address;
 
 public:
-    ReadCommand() {}
     ReadCommand(int adr) : address(adr) {}
 
     virtual void performOperation(Program& program) const override;
@@ -46,8 +44,55 @@ class WriteCommand : public Command {
     int address;
 
 public:
-    WriteCommand() {}
     WriteCommand(int adr) : address(adr) {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
+class JumpCommand : public Command {
+    int address;
+
+public:
+    JumpCommand(int adr) : address(adr - 2) {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
+class JumpZeroCommand : public Command {
+    int address;
+
+public:
+    JumpZeroCommand(int adr) : address(adr - 2) {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
+class JumpNotZeroCommand : public Command {
+    int address;
+
+public:
+    JumpNotZeroCommand(int adr) : address(adr - 2) {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
+class CallCommand : public Command {
+    int address;
+
+public:
+    CallCommand(int adr) : address(adr - 2) {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
+class ReturnCommand : public Command {
+public:
+    ReturnCommand() {}
 
     virtual void performOperation(Program& program) const override;
     virtual void print(std::ostream& os) const override;
