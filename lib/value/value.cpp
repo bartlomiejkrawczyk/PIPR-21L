@@ -86,8 +86,8 @@ std::istream& operator>>(std::istream& is, Fraction& val) {
     char chr;
     if (is.peek() == '_') {
         is >> chr >> b;
-    }
-    if (is.peek() == '/') {
+        is >> chr >> c;
+    } else if (is.peek() == '/') {
         is >> chr >> c;
     }
 
