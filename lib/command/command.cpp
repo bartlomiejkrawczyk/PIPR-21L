@@ -1,8 +1,8 @@
 #include "command.h"
 
-#include <algorithm>
+#include <program/program.h>
 
-#include "../program/program.h"
+#include <algorithm>
 
 // Command
 

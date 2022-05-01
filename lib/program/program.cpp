@@ -1,6 +1,6 @@
 #include "program.h"
 
-#include "../value/value.h"
+#include <value/value.h>
 
 void Program::addInstruction(std::unique_ptr<Command> instruction) {
     instructions.push_back(std::move(instruction));

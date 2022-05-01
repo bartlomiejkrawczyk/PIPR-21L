@@ -1,12 +1,12 @@
 #pragma once
 
+#include <command/command.h>
+#include <memory/memory.h>
+#include <stack_machine/stack_machine.h>
+
 #include <iostream>
 #include <memory>
 #include <vector>
-
-#include "../command/command.h"
-#include "../memory/memory.h"
-#include "../stack_machine/stack_machine.h"
 
 class Value;
 

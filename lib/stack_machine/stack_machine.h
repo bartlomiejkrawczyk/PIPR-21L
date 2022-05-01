@@ -1,10 +1,11 @@
 #pragma once
 
+#include <value/value.h>
+
 #include <functional>
 #include <memory>
 #include <vector>
 
-#include "../value/value.h"
 #include "operations.h"
 
 class StackMachine {

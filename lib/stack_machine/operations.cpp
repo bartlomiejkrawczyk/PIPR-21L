@@ -1,6 +1,6 @@
 #include "operations.h"
 
-#include "../value/value.h"
+#include <value/value.h>
 
 std::unique_ptr<Value> addition(Value const& a, Value const& b) { return a + b; }
 

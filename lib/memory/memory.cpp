@@ -1,9 +1,9 @@
 #include "memory.h"
 
+#include <value/value.h>
+
 #include <iomanip>
 #include <sstream>
-
-#include "../value/value.h"
 
 std::ostream& operator<<(std::ostream& os, const Memory& memory) {
     os << "___________________\n";
