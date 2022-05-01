@@ -110,11 +110,11 @@ void JumpZeroCommand::print(std::ostream& os) const {
 
 // JUMP_NOT_ZERO
 
-void JumpZeroCommand::performOperation(Program& program) const {
+void JumpNotZeroCommand::performOperation(Program& program) const {
     if (program.stack.top().value() != 0.0) program.instruction = address;
 }
 
-void JumpZeroCommand::print(std::ostream& os) const {
+void JumpNotZeroCommand::print(std::ostream& os) const {
     os << "JUMP_NOT_ZERO"
        << " " << address << std::endl;
 }
