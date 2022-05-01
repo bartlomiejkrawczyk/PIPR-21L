@@ -27,7 +27,14 @@ add_executable(stack-machine-tests stack_machine_tests.cpp)
 target_link_libraries(stack-machine-tests stack_machine)
 target_link_libraries(stack-machine-tests Catch2::Catch2WithMain)
 
+# Memory
+add_executable(memory-tests memory_tests.cpp)
+target_link_libraries(memory-tests memory)
+target_link_libraries(memory-tests value)
+target_link_libraries(memory-tests Catch2::Catch2WithMain)
+
 
 add_test(sanity-tests sanity-tests)
 add_test(value-tests value-tests)
 add_test(stack-machine-tests stack-machine-tests)
+add_test(memory-tests memory-tests)
