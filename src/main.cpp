@@ -1,33 +1,23 @@
 #include <program/program.h>
 
+#include <fstream>
 #include <iostream>
-#include <sstream>
+#include <string>
 
-int main() {
-    Program program;
-    std::stringstream ss;
+int main(int argc, char *argv[]) {
+    if (argc > 1) {
+        std::ifstream file(argv[1]);
 
-    ss << "JUMP 2" << std::endl;
-    program.addInstruction(Command::read(ss));
+        Program program;
+        file >> program;
 
-    ss << "PUSH 1_2/5" << std::endl;
-    program.addInstruction(Command::read(ss));
+        file.close();
 
-    ss << "PUSH 12" << std::endl;
-    program.addInstruction(Command::read(ss));
+        program.run();
 
-    ss << "PUSH 3.14159265" << std::endl;
-    program.addInstruction(Command::read(ss));
-
-    ss << "WRITE 1" << std::endl;
-    program.addInstruction(Command::read(ss));
-
-    ss << "READ 1" << std::endl;
-    program.addInstruction(Command::read(ss));
-
-    program.run();
-
-    std::cout << program;
-
+        std::cout << program;
+    } else {
+        std::cerr << "Usage:\n" << argv[0] << " FILE" << std::endl;
+    }
     return 0;
 }

@@ -28,3 +28,10 @@ std::ostream& operator<<(std::ostream& os, const Program& program) {
 
     return os;
 }
+
+std::istream& operator>>(std::istream& is, Program& program) {
+    while (!is.eof()) {
+        program.addInstruction(Command::read(is));
+    }
+    return is;
+}

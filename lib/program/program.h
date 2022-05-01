@@ -29,4 +29,5 @@ private:
 
 public:
     friend std::ostream& operator<<(std::ostream& os, const Program& program);
+    friend std::istream& operator>>(std::istream& is, Program& program);
 };

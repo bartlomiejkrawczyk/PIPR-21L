@@ -58,7 +58,7 @@ std::unique_ptr<Command> Command::read(std::istream& is) {
         return std::make_unique<SwapCommand>(SwapCommand());
     }
 
-    return nullptr;
+    throw std::invalid_argument("Invalid instruction: " + command);
 }
 
 std::ostream& operator<<(std::ostream& os, const Command& command) {

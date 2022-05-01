@@ -1,0 +1,6 @@
+JUMP    2
+PUSH    1_2/5
+PUSH    12
+PUSH    3.14159265
+WRITE   1
+READ    1
