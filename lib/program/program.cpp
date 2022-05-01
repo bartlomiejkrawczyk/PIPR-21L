@@ -30,8 +30,14 @@ std::ostream& operator<<(std::ostream& os, const Program& program) {
 }
 
 std::istream& operator>>(std::istream& is, Program& program) {
+    std::string line;
     while (!is.eof()) {
-        program.addInstruction(Command::read(is));
+        getline(is, line);
+        if (!line.empty()) {
+            std::stringstream ss(line);
+            program.addInstruction(Command::read(ss));
+        }
     }
+
     return is;
 }
