@@ -97,3 +97,59 @@ public:
     virtual void performOperation(Program& program) const override;
     virtual void print(std::ostream& os) const override;
 };
+
+class AdditionCommand : public Command {
+public:
+    AdditionCommand() {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
+class SubtractionCommand : public Command {
+public:
+    SubtractionCommand() {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
+class MultiplicationCommand : public Command {
+public:
+    MultiplicationCommand() {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
+class DivisionCommand : public Command {
+public:
+    DivisionCommand() {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
+class PowerCommand : public Command {
+public:
+    PowerCommand() {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
+class DuplicationCommand : public Command {
+public:
+    DuplicationCommand() {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
+class SwapCommand : public Command {
+public:
+    SwapCommand() {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};

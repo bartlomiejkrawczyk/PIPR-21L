@@ -6,6 +6,7 @@
 
 // Command
 
+// Simple object factory
 std::unique_ptr<Command> Command::read(std::istream& is) {
     std::string command;
 
@@ -40,9 +41,21 @@ std::unique_ptr<Command> Command::read(std::istream& is) {
         is >> address;
         return std::make_unique<CallCommand>(CallCommand(address));
     } else if (command == "RET") {
-        int address;
-        is >> address;
         return std::make_unique<ReturnCommand>(ReturnCommand());
+    } else if (command == "ADD") {
+        return std::make_unique<AdditionCommand>(AdditionCommand());
+    } else if (command == "SUP") {
+        return std::make_unique<SubtractionCommand>(SubtractionCommand());
+    } else if (command == "MUL") {
+        return std::make_unique<MultiplicationCommand>(MultiplicationCommand());
+    } else if (command == "DIV") {
+        return std::make_unique<DivisionCommand>(DivisionCommand());
+    } else if (command == "POW") {
+        return std::make_unique<PowerCommand>(PowerCommand());
+    } else if (command == "DUP") {
+        return std::make_unique<DuplicationCommand>(DuplicationCommand());
+    } else if (command == "SWAP") {
+        return std::make_unique<SwapCommand>(SwapCommand());
     }
 
     return nullptr;
@@ -138,3 +151,45 @@ void ReturnCommand::performOperation(Program& program) const {
 }
 
 void ReturnCommand::print(std::ostream& os) const { os << "RET" << std::endl; }
+
+// ADD
+
+void AdditionCommand::performOperation(Program& program) const { program.stack.add(); }
+
+void AdditionCommand::print(std::ostream& os) const { os << "ADD" << std::endl; }
+
+// SUB
+
+void SubtractionCommand::performOperation(Program& program) const { program.stack.sub(); }
+
+void SubtractionCommand::print(std::ostream& os) const { os << "SUB" << std::endl; }
+
+// MUL
+
+void MultiplicationCommand::performOperation(Program& program) const { program.stack.mul(); }
+
+void MultiplicationCommand::print(std::ostream& os) const { os << "MUL" << std::endl; }
+
+// DIV
+
+void DivisionCommand::performOperation(Program& program) const { program.stack.div(); }
+
+void DivisionCommand::print(std::ostream& os) const { os << "DIV" << std::endl; }
+
+// POW
+
+void PowerCommand::performOperation(Program& program) const { program.stack.pow(); }
+
+void PowerCommand::print(std::ostream& os) const { os << "POW" << std::endl; }
+
+// DUP
+
+void DuplicationCommand::performOperation(Program& program) const { program.stack.dup(); }
+
+void DuplicationCommand::print(std::ostream& os) const { os << "DUP" << std::endl; }
+
+// SWAP
+
+void SwapCommand::performOperation(Program& program) const { program.stack.swap(); }
+
+void SwapCommand::print(std::ostream& os) const { os << "SWAP" << std::endl; }
