@@ -33,8 +33,14 @@ target_link_libraries(memory-tests memory)
 target_link_libraries(memory-tests value)
 target_link_libraries(memory-tests Catch2::Catch2WithMain)
 
+# Program
+add_executable(program-tests program_tests.cpp)
+target_link_libraries(program-tests program)
+target_link_libraries(program-tests Catch2::Catch2WithMain)
+
 
 add_test(sanity-tests sanity-tests)
 add_test(value-tests value-tests)
 add_test(stack-machine-tests stack-machine-tests)
 add_test(memory-tests memory-tests)
+add_test(program-tests program-tests)
