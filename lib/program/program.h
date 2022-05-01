@@ -14,7 +14,7 @@ class Program {
     std::vector<std::unique_ptr<Command>> instructions;
 
 public:
-    Memory memory;
+    Memory<std::unique_ptr<Value>> memory;
     StackMachine stack;
     size_t instruction = 0;
 
