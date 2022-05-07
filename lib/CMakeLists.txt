@@ -21,3 +21,9 @@ target_link_libraries(command program)
 target_link_libraries(program stack_machine)
 target_link_libraries(program memory)
 target_link_libraries(program command)
+
+include_directories(debugger)
+add_library(debugger debugger/debugger.cpp)
+target_link_libraries(debugger program)
+
+target_link_libraries(program debugger)

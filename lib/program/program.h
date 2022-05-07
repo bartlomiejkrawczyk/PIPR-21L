@@ -1,6 +1,7 @@
 #pragma once
 
 #include <command/command.h>
+#include <debugger/debugger.h>
 #include <memory/memory.h>
 #include <stack_machine/stack_machine.h>
 
@@ -30,4 +31,6 @@ private:
 public:
     friend std::ostream& operator<<(std::ostream& os, const Program& program);
     friend std::istream& operator>>(std::istream& is, Program& program);
+
+    friend class Debugger;
 };
