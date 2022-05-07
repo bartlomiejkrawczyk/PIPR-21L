@@ -103,7 +103,10 @@ void WriteCommand::print(std::ostream& os) const {
 
 // JUMP
 
-void JumpCommand::performOperation(Program& program) const { program.instruction = address - 2; }
+void JumpCommand::performOperation(Program& program) const {
+    // Note: Line count starts from 1, but instructions are indexed from 0
+    program.instruction = address - 1;
+}
 
 void JumpCommand::print(std::ostream& os) const {
     os << "JUMP"
@@ -113,7 +116,8 @@ void JumpCommand::print(std::ostream& os) const {
 // JUMP_ZERO
 
 void JumpZeroCommand::performOperation(Program& program) const {
-    if (program.stack.top().value() == 0.0) program.instruction = address - 2;
+    // Note: Line count starts from 1, but instructions are indexed from 0
+    if (program.stack.top().value() == 0.0) program.instruction = address - 1;
 }
 
 void JumpZeroCommand::print(std::ostream& os) const {
@@ -124,7 +128,8 @@ void JumpZeroCommand::print(std::ostream& os) const {
 // JUMP_NOT_ZERO
 
 void JumpNotZeroCommand::performOperation(Program& program) const {
-    if (program.stack.top().value() != 0.0) program.instruction = address - 2;
+    // Note: Line count starts from 1, but instructions are indexed from 0
+    if (program.stack.top().value() != 0.0) program.instruction = address - 1;
 }
 
 void JumpNotZeroCommand::print(std::ostream& os) const {
@@ -136,7 +141,8 @@ void JumpNotZeroCommand::print(std::ostream& os) const {
 
 void CallCommand::performOperation(Program& program) const {
     program.stack.push(std::make_unique<Fraction>(Fraction(program.instruction)));
-    program.instruction = address - 2;
+    // Note: Line count starts from 1, but instructions are indexed from 0
+    program.instruction = address - 1;
 }
 
 void CallCommand::print(std::ostream& os) const {

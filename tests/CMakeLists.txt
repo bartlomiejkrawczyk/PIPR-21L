@@ -42,6 +42,7 @@ target_link_libraries(program-tests Catch2::Catch2WithMain)
 add_executable(command-tests command_tests.cpp)
 target_link_libraries(command-tests command)
 target_link_libraries(command-tests value)
+target_link_libraries(command-tests program)
 target_link_libraries(command-tests Catch2::Catch2WithMain)
 
 

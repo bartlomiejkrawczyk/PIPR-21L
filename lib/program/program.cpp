@@ -8,13 +8,13 @@ void Program::addInstruction(std::unique_ptr<Command> instruction) {
 
 void Program::step() {
     if (instructions.size() > instruction) {
-        call(*instructions[instruction++]);
+        call(*instructions[++instruction - 1]);
     }
 }
 
 void Program::run() {
-    for (; instruction < instructions.size(); ++instruction) {
-        call(*instructions[instruction]);
+    for (; instruction < instructions.size();) {
+        call(*instructions[++instruction - 1]);
     }
 }
 
