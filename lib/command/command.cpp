@@ -73,7 +73,7 @@ void PushCommand::performOperation(Program& program) const {
 }
 void PushCommand::print(std::ostream& os) const {
     os << "PUSH"
-       << " " << value.get() << std::endl;
+       << " " << *value.get() << std::endl;
 }
 
 // READ
@@ -103,7 +103,7 @@ void WriteCommand::print(std::ostream& os) const {
 
 // JUMP
 
-void JumpCommand::performOperation(Program& program) const { program.instruction = address; }
+void JumpCommand::performOperation(Program& program) const { program.instruction = address - 2; }
 
 void JumpCommand::print(std::ostream& os) const {
     os << "JUMP"
@@ -113,7 +113,7 @@ void JumpCommand::print(std::ostream& os) const {
 // JUMP_ZERO
 
 void JumpZeroCommand::performOperation(Program& program) const {
-    if (program.stack.top().value() == 0.0) program.instruction = address;
+    if (program.stack.top().value() == 0.0) program.instruction = address - 2;
 }
 
 void JumpZeroCommand::print(std::ostream& os) const {
@@ -124,7 +124,7 @@ void JumpZeroCommand::print(std::ostream& os) const {
 // JUMP_NOT_ZERO
 
 void JumpNotZeroCommand::performOperation(Program& program) const {
-    if (program.stack.top().value() != 0.0) program.instruction = address;
+    if (program.stack.top().value() != 0.0) program.instruction = address - 2;
 }
 
 void JumpNotZeroCommand::print(std::ostream& os) const {
@@ -136,7 +136,7 @@ void JumpNotZeroCommand::print(std::ostream& os) const {
 
 void CallCommand::performOperation(Program& program) const {
     program.stack.push(std::make_unique<Fraction>(Fraction(program.instruction)));
-    program.instruction = address;
+    program.instruction = address - 2;
 }
 
 void CallCommand::print(std::ostream& os) const {

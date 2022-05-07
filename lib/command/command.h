@@ -54,7 +54,7 @@ class JumpCommand : public Command {
     int address;
 
 public:
-    JumpCommand(int adr) : address(adr - 2) {}
+    JumpCommand(int adr) : address(adr) {}
 
     virtual void performOperation(Program& program) const override;
     virtual void print(std::ostream& os) const override;
@@ -64,7 +64,7 @@ class JumpZeroCommand : public Command {
     int address;
 
 public:
-    JumpZeroCommand(int adr) : address(adr - 2) {}
+    JumpZeroCommand(int adr) : address(adr) {}
 
     virtual void performOperation(Program& program) const override;
     virtual void print(std::ostream& os) const override;
@@ -74,7 +74,7 @@ class JumpNotZeroCommand : public Command {
     int address;
 
 public:
-    JumpNotZeroCommand(int adr) : address(adr - 2) {}
+    JumpNotZeroCommand(int adr) : address(adr) {}
 
     virtual void performOperation(Program& program) const override;
     virtual void print(std::ostream& os) const override;
@@ -84,7 +84,7 @@ class CallCommand : public Command {
     int address;
 
 public:
-    CallCommand(int adr) : address(adr - 2) {}
+    CallCommand(int adr) : address(adr) {}
 
     virtual void performOperation(Program& program) const override;
     virtual void print(std::ostream& os) const override;
