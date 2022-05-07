@@ -232,6 +232,18 @@ TEST_CASE("Check if ADD is printed correctly", "command") {
     REQUIRE(ss.str() == "ADD\n");
 }
 
+TEST_CASE("Check if ADD works correctly", "command") {
+    Program program;
+    program.stack.push(std::make_unique<Fraction>(Fraction(10)));
+    program.stack.push(std::make_unique<Fraction>(Fraction(5)));
+    AdditionCommand command;
+
+    REQUIRE(program.stack.size() == 2);
+    command.performOperation(program);
+    REQUIRE(program.stack.size() == 1);
+    REQUIRE(program.stack.top().value() == 15);
+}
+
 // SUB
 
 TEST_CASE("Check if SUB is printed correctly", "command") {
@@ -241,6 +253,18 @@ TEST_CASE("Check if SUB is printed correctly", "command") {
     ss << command;
 
     REQUIRE(ss.str() == "SUB\n");
+}
+
+TEST_CASE("Check if SUB works correctly", "command") {
+    Program program;
+    program.stack.push(std::make_unique<Fraction>(Fraction(10)));
+    program.stack.push(std::make_unique<Fraction>(Fraction(5)));
+    SubtractionCommand command;
+
+    REQUIRE(program.stack.size() == 2);
+    command.performOperation(program);
+    REQUIRE(program.stack.size() == 1);
+    REQUIRE(program.stack.top().value() == 5);
 }
 
 // MUL
@@ -254,6 +278,18 @@ TEST_CASE("Check if MUL is printed correctly", "command") {
     REQUIRE(ss.str() == "MUL\n");
 }
 
+TEST_CASE("Check if MUL works correctly", "command") {
+    Program program;
+    program.stack.push(std::make_unique<Fraction>(Fraction(10)));
+    program.stack.push(std::make_unique<Fraction>(Fraction(5)));
+    MultiplicationCommand command;
+
+    REQUIRE(program.stack.size() == 2);
+    command.performOperation(program);
+    REQUIRE(program.stack.size() == 1);
+    REQUIRE(program.stack.top().value() == 50);
+}
+
 // DIV
 
 TEST_CASE("Check if DIV is printed correctly", "command") {
@@ -263,6 +299,18 @@ TEST_CASE("Check if DIV is printed correctly", "command") {
     ss << command;
 
     REQUIRE(ss.str() == "DIV\n");
+}
+
+TEST_CASE("Check if DIV works correctly", "command") {
+    Program program;
+    program.stack.push(std::make_unique<Fraction>(Fraction(10)));
+    program.stack.push(std::make_unique<Fraction>(Fraction(5)));
+    DivisionCommand command;
+
+    REQUIRE(program.stack.size() == 2);
+    command.performOperation(program);
+    REQUIRE(program.stack.size() == 1);
+    REQUIRE(program.stack.top().value() == 2);
 }
 
 // POW
@@ -276,6 +324,18 @@ TEST_CASE("Check if POW is printed correctly", "command") {
     REQUIRE(ss.str() == "POW\n");
 }
 
+TEST_CASE("Check if POW works correctly", "command") {
+    Program program;
+    program.stack.push(std::make_unique<Fraction>(Fraction(10)));
+    program.stack.push(std::make_unique<Fraction>(Fraction(5)));
+    PowerCommand command;
+
+    REQUIRE(program.stack.size() == 2);
+    command.performOperation(program);
+    REQUIRE(program.stack.size() == 1);
+    REQUIRE(program.stack.top().value() == 100'000);
+}
+
 // DUP
 
 TEST_CASE("Check if DUP is printed correctly", "command") {
@@ -287,6 +347,18 @@ TEST_CASE("Check if DUP is printed correctly", "command") {
     REQUIRE(ss.str() == "DUP\n");
 }
 
+TEST_CASE("Check if DUP works correctly", "command") {
+    Program program;
+    program.stack.push(std::make_unique<Fraction>(Fraction(10)));
+    DuplicationCommand command;
+
+    REQUIRE(program.stack.size() == 1);
+    command.performOperation(program);
+    REQUIRE(program.stack.size() == 2);
+    REQUIRE(program.stack.peekAndPop()->value() == 10);
+    REQUIRE(program.stack.top().value() == 10);
+}
+
 // SWAP
 
 TEST_CASE("Check if SWAP is printed correctly", "command") {
@@ -296,4 +368,18 @@ TEST_CASE("Check if SWAP is printed correctly", "command") {
     ss << command;
 
     REQUIRE(ss.str() == "SWAP\n");
+}
+
+TEST_CASE("Check if SWAP works correctly", "command") {
+    Program program;
+    program.stack.push(std::make_unique<Fraction>(Fraction(10)));
+    program.stack.push(std::make_unique<Fraction>(Fraction(5)));
+    SwapCommand command;
+
+    REQUIRE(program.stack.size() == 2);
+    REQUIRE(program.stack.top().value() == 5);
+    command.performOperation(program);
+    REQUIRE(program.stack.size() == 2);
+    REQUIRE(program.stack.peekAndPop()->value() == 10);
+    REQUIRE(program.stack.top().value() == 5);
 }
