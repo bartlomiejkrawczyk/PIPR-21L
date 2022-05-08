@@ -10,7 +10,7 @@ void Debugger::run(std::ostream& os) {
 void Debugger::step(std::ostream& os) {
     size_t i = program.instruction;
     if (program.instructions.size() > i) {
-        os << "Instruction: " << std::endl;
+        os << "Instruction:" << std::endl;
         printCommand(i, os);
         std::function<void()> func = std::bind(&Program::step, &program);
         handleExceptions(os, func);

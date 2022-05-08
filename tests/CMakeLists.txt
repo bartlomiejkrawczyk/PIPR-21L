@@ -46,9 +46,16 @@ target_link_libraries(command-tests program)
 target_link_libraries(command-tests Catch2::Catch2WithMain)
 
 
+# Debugger
+add_executable(debugger-tests debugger_tests.cpp)
+target_link_libraries(debugger-tests debugger)
+target_link_libraries(debugger-tests Catch2::Catch2WithMain)
+
+
 add_test(sanity-tests sanity-tests)
 add_test(value-tests value-tests)
 add_test(stack-machine-tests stack-machine-tests)
 add_test(memory-tests memory-tests)
 add_test(program-tests program-tests)
 add_test(command-tests command-tests)
+add_test(debugger-tests debugger-tests)
