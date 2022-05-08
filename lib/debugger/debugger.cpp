@@ -8,8 +8,15 @@ void Debugger::run(std::ostream& os) {
 }
 
 void Debugger::step(std::ostream& os) {
-    std::function<void()> func = std::bind(&Program::step, &program);
-    handleExceptions(os, func);
+    size_t i = program.instruction;
+    if (program.instructions.size() > i) {
+        os << "Instruction: " << std::endl;
+        printCommand(i, os);
+        std::function<void()> func = std::bind(&Program::step, &program);
+        handleExceptions(os, func);
+    } else {
+        os << "Program has ended!\nTry \"restart\"" << std::endl;
+    }
 }
 
 void Debugger::restart() {
@@ -33,26 +40,23 @@ void Debugger::interaction(std::istream& is, std::ostream& os) {
         std::transform(command.begin(), command.end(), command.begin(), ::tolower);
 
         if (command.compare("help") == 0)
-            os << "Available commands: \n - help \n - run \n - step \n - display \n - commands "
-                  "\n - restart \n - exit"
+            os << "Available commands:\n"
+                  " - help\n"
+                  " - run\n"
+                  " - step\n"
+                  " - display\n"
+                  " - instructions\n"
+                  " - restart\n"
+                  " - exit"
                << std::endl;
         else if (command.compare("run") == 0)
             run(os);
         else if (command.compare("step") == 0) {
-            size_t i = program.instruction;
-            if (program.instructions.size() > i) {
-                os << "Instruction: " << std::endl;
-                printCommand(i, os);
-                step(os);
-            } else {
-                os << "Program has ended!\nTry \"restart\"" << std::endl;
-            }
+            step(os);
         } else if (command.compare("display") == 0)
             displayState(os);
-        else if (command.compare("commands") == 0) {
-            for (size_t i = 0; i < program.instructions.size(); ++i) {
-                printCommand(i, os);
-            }
+        else if (command.compare("instructions") == 0) {
+            for (size_t i = 0; i < program.instructions.size(); ++i) printCommand(i, os);
         } else if (command.compare("restart") == 0)
             restart();
         else if (command.compare("exit") == 0)

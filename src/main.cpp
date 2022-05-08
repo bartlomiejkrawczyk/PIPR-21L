@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
             Debugger debugger(&program);
 
             debugger.interaction();
+
         } else {
             program.run();
             std::cout << program;
