@@ -27,6 +27,27 @@ TEST_CASE("Check if PUSH works correctly", "command") {
     REQUIRE(program.stack.top().value() == 1);
 }
 
+// POP
+
+TEST_CASE("Check if POP is printed correctly", "command") {
+    PopCommand command;
+    std::stringstream ss;
+
+    ss << command;
+
+    REQUIRE(ss.str() == "POP\n");
+}
+
+TEST_CASE("Check if POP works correctly", "command") {
+    Program program;
+    program.stack.push(std::make_unique<Fraction>(Fraction(10)));
+    PopCommand command;
+
+    REQUIRE(program.stack.size() == 1);
+    command.performOperation(program);
+    REQUIRE(program.stack.size() == 0);
+}
+
 // READ
 
 TEST_CASE("Check if READ is printed correctly", "command") {

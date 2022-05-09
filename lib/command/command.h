@@ -30,6 +30,14 @@ public:
     virtual void print(std::ostream& os) const override;
 };
 
+class PopCommand : public Command {
+public:
+    PopCommand() {}
+
+    virtual void performOperation(Program& program) const override;
+    virtual void print(std::ostream& os) const override;
+};
+
 class ReadCommand : public Command {
     int address;
 

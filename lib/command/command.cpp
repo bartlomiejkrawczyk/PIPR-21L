@@ -16,6 +16,8 @@ std::unique_ptr<Command> Command::read(std::istream& is) {
 
     if (command == "PUSH") {
         return std::make_unique<PushCommand>(PushCommand(std::move(Value::read(is))));
+    } else if (command == "POP") {
+        return std::make_unique<PopCommand>(PopCommand());
     } else if (command == "READ") {
         int address;
         is >> address;
@@ -44,7 +46,7 @@ std::unique_ptr<Command> Command::read(std::istream& is) {
         return std::make_unique<ReturnCommand>(ReturnCommand());
     } else if (command == "ADD") {
         return std::make_unique<AdditionCommand>(AdditionCommand());
-    } else if (command == "SUP") {
+    } else if (command == "SUB") {
         return std::make_unique<SubtractionCommand>(SubtractionCommand());
     } else if (command == "MUL") {
         return std::make_unique<MultiplicationCommand>(MultiplicationCommand());
@@ -75,6 +77,11 @@ void PushCommand::print(std::ostream& os) const {
     os << "PUSH"
        << " " << *value.get() << std::endl;
 }
+
+// POP
+
+void PopCommand::performOperation(Program& program) const { program.stack.pop(); }
+void PopCommand::print(std::ostream& os) const { os << "POP" << std::endl; }
 
 // READ
 
